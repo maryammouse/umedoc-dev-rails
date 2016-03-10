@@ -1,0 +1,175 @@
+<%= render partial: 'html_header' %>
+<style>
+tr:nth-child(even) {background: #99cccc}
+tr:nth-child(odd) {background: #FFF}
+
+
+</style>
+<div style='padding-top: 100px;'>
+    <div align='center'>
+    <h1>Visits Notice Board</h1>
+      <div align="center">
+        <% flash.each do |message_type, message| %>
+            <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+        <% end %>
+      </div>
+    This is where you can check the status of any upcoming visits, whether online or offline (in a physical office).<br>
+    When it's time for your online visit, please make sure to go to the <b><a href='/office'>Online Office</a></b> so you can begin.<br>
+    Please note that you will be required to enter a code through your phone when you first enter,<br>
+    so make sure to have your phone nearby.
+    <br><br>
+    <div style=" width: 60%; border: 3px solid turquoise; border-radius: 10px;">
+        <table class='table'>
+            <tr>
+                <td style='padding-right: 10px;'>
+                    <h4>Next Visit</h4>
+        <% unless @upcoming_visit.nil? %>
+        <h2>You have an upcoming visit!</h2>
+        Your next visit is on...<br>
+        <b>Start:</b> <%= @upcoming_visit.timerange.begin.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z')%><br>
+        <b>End:</b> <%= @upcoming_visit.timerange.end.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z')%><br>
+        <br><b>at</b>
+        <% unless @upcoming_visit.office_location.nil? %>
+            <%= @upcoming_visit.office_location.street_address_1 %>, <%= @upcoming_visit.office_location.street_address_2 %><br>
+            <%= @upcoming_visit.office_location.city %>, <%= @upcoming_visit.office_location.state %> <%= @upcoming_visit.office_location.zip_code %>
+        <% else %><b>the <a href="/office">Online Office</a></b>
+        <% end %><br>
+        with 
+            <% if current_user.patient %> <b>Doctor <%= @upcoming_visit.oncall_time.doctor.user.firstname %> <%= @upcoming_visit.oncall_time.doctor.user.lastname %></b> <% end %>
+            <% if current_user.doctor %> <b> <%= @upcoming_visit.patient.user.firstname %> <%= @upcoming_visit.patient.user.lastname %> </b> <% end %>
+            <br>
+
+        <% else %>
+            <b>You have no upcoming visits! 
+            <% if current_user && current_user.patient %>Book one <a href="/">here</a>.<p><% end %>
+            <% unless logged_in? %> Book one <a href="/">here</a>.<p><% end %></b> 
+        <% end %>
+                </td><td>
+        <% unless @last_visit.nil? %>
+            <div style="color: #ccc;">
+            <h4>Last Visit</h4>
+            Your last visit was a <%= distance_of_time_in_words(@last_visit.timerange.end, @last_visit.timerange.begin) %> visit<br> with <b>Doctor <%= @last_visit.oncall_time.doctor.user.firstname %> <%= @last_visit.oncall_time.doctor.user.lastname %> </b><br>
+            which began on <%= @last_visit.timerange.begin.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y at %H:%M %Z') %> 
+        <% end %>
+        <% if @upcoming_visit.nil? and @last_visit.nil? %>
+            <h4 class="black-header">Last Visit</h4>
+        <b>You haven't had a visit yet! <% if current_user && current_user.patient %> Book one <a href="/">here</a>. <% end %>
+            <% unless logged_in? %> 
+            Book one <a href="/">here</a>.
+            <% end %>
+        </b>
+        </div>
+        <% end %>
+        </td>
+        </tr>
+        </table>
+
+        </div>
+        <div style="width: 80%"><br><br><br>
+    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active" style='width: 50%;'><a href="#future" id="future-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Future Visits</a></li>
+        <li role="presentation" style='width: 50%;'><a href="#past" role="tab" id="past-tab" data-toggle="tab" aria-controls="profile">Past Visits</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="future" aria-labelledBy="add-tab">
+            <div style='width: 80%;'>
+                <br><br>
+                <h4>Future Visits</h4>
+        <table class='table'>
+            <tr>
+                <td><b>Date and Time</b></td>
+                <td><% if logged_in? %><% if current_user.doctor %>
+                        <b>Patient</b>
+                    <% else %>
+                        <b>Doctor</b>
+                        <% end %>
+                    <% else %>
+                        <b>Doctor/Patient</b>
+                    <% end %>
+                </td>
+                <td><b>Duration</b></td>
+                <td><b>Location</b></td>
+            </tr>
+            <% if @future_visits %>
+                    <% @future_visits.each do |n| %>
+                        <tr>
+                            <td><%= n.timerange.begin.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z') %> -
+                                <%= n.timerange.end.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z') %>
+                            </td>
+                            <td>
+                                <% if current_user.doctor %>
+                                    <%= n.patient.user.firstname %> <%= n.patient.user.lastname %>
+                                <% else %>
+                                    Doctor <%= n.oncall_time.doctor.user.firstname %> <%= n.oncall_time.doctor.user.lastname %>
+                                <% end %>
+                            </td>
+                            <td><%= distance_of_time_in_words(n.timerange.end, n.timerange.begin) %></td>
+                            <td>
+                            <% if n.office_location.nil? %>
+                                <a href="/office">Online Office</a>
+                                <% else %>
+                                <%= n.office_location.street_address_1 %>, <%= n.office_location.street_address_2 %><br>
+                                <%= n.office_location.city %>, <%= n.office_location.state %> <%= n.office_location.zip_code %>
+                                <% end %>
+                            </td>
+                            </tr>
+                            <% end %>
+                            <% end %>
+            
+        </table>
+        </div>
+</div>
+      <div role="tabpanel" class="tab-pane fade" id="past" aria-labelledBy="edit-tab">
+        <div style='width: 80%;'>
+                <br><br>
+                <h4>Past Visits</h4>
+        <table class='table'>
+            <tr>
+                <td><b>Date and Time</b></td>
+                <td><% if logged_in? %><% if current_user.doctor %>
+                        <b>Patient</b>
+                    <% else %>
+                        <b>Doctor</b>
+                        <% end %>
+                    <% else %>
+                        <b>Doctor/Patient</b>
+                    <% end %>
+                </td>
+                <td><b>Duration</b></td>
+                <td><b>Location</b></td>
+            </tr>
+            <% if @past_visits %>
+                    <% @past_visits.each do |n| %>
+                        <tr>
+                            <td><%= n.timerange.begin.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z') %> -
+                                <%= n.timerange.end.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M %Z') %>
+                            </td>
+                            <td>
+                                <% if current_user.doctor %>
+                                    <%= n.patient.user.firstname %> <%= n.patient.user.lastname %>
+                                <% else %>
+                                    Doctor <%= n.oncall_time.doctor.user.firstname %> <%= n.oncall_time.doctor.user.lastname %>
+                                <% end %>
+                            </td>
+                            <td><%= distance_of_time_in_words(n.timerange.end, n.timerange.begin) %></td>
+                            <td>
+                            <% if n.office_location.nil? %>
+                                <a href="/office">Online Office</a>
+                                <% else %>
+                                <%= n.office_location.street_address_1 %>, <%= n.office_location.street_address_2 %><br>
+                                <%= n.office_location.city %>, <%= n.office_location.state %> <%= n.office_location.zip_code %>
+                                <% end %>
+                            </td>
+                            </tr>
+                            <% end %>
+                            <% end %>
+            
+        </table>
+        </div>
+
+      </div>
+      </div>
+
+    </div>
+    </div>

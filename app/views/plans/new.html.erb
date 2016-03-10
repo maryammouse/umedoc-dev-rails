@@ -1,0 +1,26 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+  <div align="center">
+    <h1>Offer Your Patients the Simple Doctor Service</h1>
+
+    <div style="text-align: left; width: 50%">
+      <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %>" style="width: 40%; text-align: left;"><%= raw(message) %></div>
+      <% end %>
+      <br>
+      How much will you charge every month?
+      <form action="/sds/join" method="POST" id="JoinSDS">
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+        <div class="form-inline">
+          <input type="text" name="plan[amount]" size="4" class="form-control"></input>
+        </div><br><br>
+        <input type="submit" value="Join" id="JoinSubmit" class="btn btn-success"></input>
+    </div>
+    </form>
+
+    * Umedoc takes 10% of the subscription fee every month. If you want patients to pay $50 a month, we will take $5 a month.
+    <br>
+    * Patients who are not subscribed can still book visits with you.
+
+  </div>

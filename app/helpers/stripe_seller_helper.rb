@@ -1,0 +1,2 @@
+module StripeSellerHelper
+end

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Umedoc</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="google-site-verification" content="5iJR4jt2U9LuleEh2Mj7vS9DjL_S9hVzb_jvNrfq4LI" />
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<style>
+    body { font-family: 'Open Sans', sans-serif;}
+    h1 {font-family: 'Open Sans', sans-serif;}
+    h2 {font-family: 'Open Sans', sans-serif;}
+    h3 {font-family: 'Open Sans', sans-serif;}
+    h4 {font-family: 'Open Sans', sans-serif;}
+    .dashed-turquoise {border-bottom: 3px dashed turquoise;}
+</style>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NCMDTF"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NCMDTF');</script>
+<!-- End Google Tag Manager -->
+
+<%= yield %>
+
+
+<script type="text/javascript">
+    var bugmuncher_options = {
+        language: "en",
+        position: "right",
+        label_text: "Bugs and Feedback",
+        require_email: false,
+        api_key: "311e2a6a59693f2f07f6"
+    };
+    (function(){
+        var node = document.createElement("script");
+        node.setAttribute("type", "text/javascript");
+        node.setAttribute("src", "//app.bugmuncher.com/js/bugMuncher.min.js");
+        document.getElementsByTagName("head")[0].appendChild(node);
+    })();
+</script>
+
+</body>
+
+</html>

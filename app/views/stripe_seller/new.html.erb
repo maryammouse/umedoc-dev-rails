@@ -1,0 +1,24 @@
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+    <div align="center">
+        <div style="width: 40%">
+    <% if @error %>
+        <h1>Oh no!</h1>
+        Something went horribly wrong! Eek!
+        <br>
+        <i>Troubleshooting:</i> If you go to your profile and it tells you your account is connected, you can ignore this. The page might have accidentally refreshed.
+        <br> If it doesn't, please <b><a href="/contact">contact us</a></b> to let us know something's wrong! We'll respond within 8 hours. :)
+        <%= @error %>
+        <% else %>
+            <h1>Your Stripe account is now connected to Umedoc!</h1>
+            Now you can accept payments from patients who book visits with you.
+
+    <% end %>
+    <br>
+    <a href="/" class="btn btn-default">Go Home</a> <a href="/users/<%= current_user.id %>" class="btn btn-default">Go to Profile</a>
+
+
+    </div>
+    </div>
+
+</div>

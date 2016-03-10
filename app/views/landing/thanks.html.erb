@@ -1,0 +1,24 @@
+<style>
+    .magic {font-size: 100pt; font-spacing: 10px; color: #fff; font-weight: none;}
+    body { background-color: #212121; }
+</style>
+<%= render partial: 'html_header' %>
+
+<div class="jumbotron" style=" padding-top: 100px; height: 600px;
+        background: url(<%= image_path 'blue_gradient_umedoc.jpg' %> );
+        background-position: top center;">
+  <div align="center">
+    <div class="magic">Thank You!</div>
+    <img src= <%= image_path "Umedoc-mascots-proper-resized-transparent.png" %> width="300">
+    <p>
+    Thanks for signing up with Umedoc - we hope you enjoy your stay!
+      <br>
+      You can go and book a visit or you can learn more about our (fantastic) doctor, Dr. Ghufran Syed.
+      <br>
+      <a class="btn btn-success btn-lg" href="/">Book Now</a> <a class="btn btn-info btn-lg" href="/syed">About Dr. Syed<br></a>
+    </p>
+
+  </div></div>
+<%= render partial: 'footer' %>
+
+

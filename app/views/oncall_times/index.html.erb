@@ -1,0 +1,507 @@
+<style>
+    .fee_rule {border: 1px solid #ccc; margin-bottom: 5px;}
+        .pagination { text-align: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;}
+        #past-times {margin-top: 100px;}
+</style>
+<%= render 'html_header' %>
+<div style="padding-top: 100px; padding-bottom: 100px;">
+  <div align="center">
+  <h1>Doctor's Dashboard</h1>
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>" style="width: 40%"><%= raw(message) %></div>
+    <% end %>
+  <div style="width: 80%">
+
+    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+
+      <ul id="myTab" class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active" style='width: 50%;'>
+          <a href="#availability" id="availability-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Availability</a></li>
+        <li role="presentation" style='width: 50%;'>
+          <a href="#fee-schedule" role="tab" id="fee-schedule-tab" data-toggle="tab" aria-controls="profile">Fee Schedule</a></li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="availability" aria-labelledBy="availability-tab">
+          <div style='width: 80%;'>
+            <br><br>
+            <h4>Add Availability</h4>
+            <form action="/oncall_times/create" method="post">
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <div class="form-inline">
+
+              You want to be on call within this time range:<br>
+              (Please click on the calendar icons to select the dates and times)
+
+              <br><br>
+              <label>Starting from</label>
+              <div id='start_datetime' class="input-group date">
+                <input type="text" name="start_datetime" class="form-control"></input>
+                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar" id="calendar-icon-start"></span>
+                    </span>
+              </div>
+
+              <b>until</b>
+              <div id='end_datetime' class="input-group date">
+                <input type="text" name="end_datetime" class="form-control"></input>
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" id="calendar-icon-end"></span>
+                </span>
+              </div>
+              </div>
+              <br>
+              <label>Time zone</label><%= time_zone_select 'create', 'timezone', ActiveSupport::TimeZone.us_zones,
+                                   { default: "Pacific Time (US & Canada)" } , class: 'form-control',
+              style: 'width: 50%' %>
+              <br>
+              <div class="form-inline">
+                <label>Locations</label><br>
+                <select name="office_locations" class="form-control" style="width: 25%">
+                  <option value="none">None</option>
+                  <%= OfficeLocation.all.each do |o| %>
+                  <option value=<%= o.id %>><%= o.street_address_1 %> | <%= o.zip_code %></option>
+                      <% end %>
+                </select>
+                <label style="padding-left: 20px;">Online?</label>
+                <input name="online" type="hidden" value="off" />
+                <input type="checkbox" name='online'></input>
+              </div>
+              <br>
+              <label>Fee Schedule</label> (you need one to create availability!)
+              <select name="fee_schedules" class="form-control" style="width: 35%">
+                <option value="">Select a schedule for this availability range</option>
+                <% if @fee_schedules.present? %>
+                    <% @fee_schedules.each do |f| %>
+                    <option value="<%= f.id %>"><%= f.name %></option>
+                        <% end %>
+                    <% end %>
+              </select>
+              <br>
+
+              <input class="btn btn-primary" name="commit" type="submit"
+                            value="Submit Availability" id="AvailabilitySubmit" />
+                </form>
+
+              </div>
+
+            <br><br>
+          <h4 style="text-align: left;">Current Availability</h4>
+            <form action='/oncall_times/switch', method='post', id='oncall_times_switch'>
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <table class='table'>
+              <tr>
+                <td><b>Date and Time</b></td>
+                <td><b>Duration</b></td>
+                <td><b>Locations</b></td>
+                <td><b>Fee Schedule</b></td>
+                <td><b>Bookable?</b></td>
+
+              </tr>
+
+              <% unless @future_oncall_times.empty? %>
+                  <% @future_oncall_times.each do |n| %>
+                      <tr>
+                        <td>
+                          Starting from <B>
+                          <%= n.timerange.begin.
+                              in_time_zone('Pacific Time (US & Canada)').
+                              strftime('%A %b-%d-%Y %H:%M %Z') %> </b> and ending on
+                          <b><%= n.timerange.end.
+                              in_time_zone('Pacific Time (US & Canada)').
+                              strftime('%A %b-%d-%Y %H:%M %Z') %></b>
+                        </td>
+                        <td>
+                          <%= distance_of_time_in_words( n.duration ) %>
+                        </td>
+                        <td>
+                          <% unless n.online_locations.empty? %>
+                              <li><a href="/office"><b>Online Office</b></a></li>
+                          <% end %>
+                          <% unless n.office_locations.empty? %>
+                              <% n.office_locations.each do |l| %>
+                              <li><%= l.street_address_1 %>, <%= l.street_address_2 %><br>
+                              <%= l.city %>, <%= l.state %> <%= l.zip_code %></li><br><br>
+                                  <% end %>
+                          <% end %>
+                        </td>
+                        <td><%= n.fee_schedule.name %></td>
+                        <td>
+                          <% if n.bookable == true %>
+                              <input name="oncall_time[<%= n.id %>]" type="hidden" value="off" />
+                              <input type="checkbox" class="my-checkbox" name='oncall_time[<%= n.id %>]' data-on-text='ON' data-off-text='OFF' checked>
+                          <% else %>
+                              <input name="oncall_time[<%= n.id %>]" type="hidden" value="off" />
+                              <input type="checkbox" class="my-checkbox" name='oncall_time[<%= n.id %>]' data-on-text='ON' data-off-text='OFF'>
+                          <% end %>
+
+                        </td>
+                      </tr>
+                  <% end %>
+              <% end %>
+
+            </table>
+
+        <input class="btn btn-info" style="float: right;" name="commit" type="submit"
+               value="Save Changes" id="SwitchSubmit" />
+        </form>
+
+
+
+          <div id="past-times">
+            <h4 style="text-align: left;">Past Availability</h4>
+            <div id="show" onclick="toggle_visibility('past-times-box')" style="background: #ccc;
+                    font: 12pt Georgia; font-style: italic; font-weight: bold; text-align: right;
+                    border: 1px solid #ccc; border-radius: 5px;
+                    padding: 3px;">show <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> </div>
+
+            <div id="past-times-box" style="display: none; border: 1px solid #ccc; border-radius: 5px;">
+              <div id="paginator">
+          <%= paginate @past_oncall_times, remote: true %>
+                </div>
+
+              <div id="past-times-table">
+                <%= render 'past_times', past_oncall_times: @past_oncall_times %>
+                </div>
+            </div>
+            </div>
+
+
+
+          </div>
+        <div role="tabpanel" class="tab-pane fade" id="fee-schedule" aria-labelledBy="fee-schedule-tab">
+          <div style='width: 80%;'>
+            <br><br>
+            <h4>Create Fee Schedule</h4>
+            <form action="/fee_schedules/create", method="post", id="ScheduleCreator">
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+              <div class="form-inline">
+                <label>Name</label>
+                <input name="fee_schedule_name" class="form-control" style="width: 50%",
+                placeholder="Since you can have multiple schedules, you must give each a name."/>
+
+                <input class="btn btn-info" name="commit" type="submit"
+                       value="Create Schedule" id="ScheduleSubmit" />
+
+              </div>
+
+            </form>
+            <BR><BR><BR>
+            <h4>Select a Fee Schedule to Edit</h4>
+              <% if @fee_schedules.present? %>
+                <form action="/fee_schedules/select" method='post' class="form-group" id="ScheduleSelector">
+                  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                <select name='fee_schedule_select' style='width: 50%;' class="form-control" onchange="this.form.submit()">
+                  <option value="">Select a schedule</option>
+              <% @fee_schedules.each do |f| %>
+                  <option value="<%= f.id%>"><%= f.name %></option>
+                  <% end %>
+                </select>
+                    </form>
+
+
+                <% else %>
+              You haven't got any schedules to edit! Please create one first.
+              <% end %>
+
+            <bR><BR><BR>
+            <% if  @current_schedule %>
+            <table class='table table-bordered' id="fee_schedule">
+              <tr>
+                <td colspan="7"><div align="center"><h4>Currently editing: <%= @current_schedule.name %></h4></div></td>
+              </tr>
+              <tr>
+                <td><b>Monday</b>
+                <br><br>
+                  <div id="Monday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 1}  %>
+                    </div>
+                  <br>
+                  <button class='btn btn-info btn-sm' value='Monday' name="add">Add</button>
+                </td>
+                <td><b>Tuesday</b>
+                  <br><br>
+                  <div id="Tuesday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 2}  %>
+                    </div>
+                    <br>
+                    <button class='btn btn-info btn-sm' value="Tuesday" name="add">Add</button>
+                </td>
+                <td><b>Wednesday</b>
+                  <br><br>
+                  <div id="Wednesday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 3}  %>
+                    </div>
+                    <br>
+                    <button class='btn btn-info btn-sm' value="Wednesday" name="add">Add</button>
+                </td>
+                <td><b>Thursday</b>
+                  <br><br>
+                  <div id="Thursday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 4}  %>
+                    </div>
+                    <br>
+                    <button class='btn btn-info btn-sm' value="Thursday" name="add">Add</button>
+                </td>
+                <td><b>Friday</b>
+                  <br><br>
+                  <div id="Friday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 5}  %>
+                    </div>
+                    <br>
+                    <button class='btn btn-info btn-sm' value="Friday" name="add">Add</button>
+                </td>
+                <td><b>Saturday</b>
+                  <br><br>
+                  <div id="Saturday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 6}  %>
+                    </div>
+                    <br>
+                    <button class='btn btn-info btn-sm' value="Saturday" name="add">Add</button>
+                </td>
+                <td><b>Sunday</b>
+                  <br><br>
+                  <div id="Sunday">
+                    <%= render partial: '/fee_schedules/fee_rule', locals: {day_of_week: 0}  %>
+                    </div>
+                  <br>
+                  <button class='btn btn-info btn-sm' value="Sunday" name="add">Add</button>
+                </td>
+              </tr>
+
+            <tr>
+              <td colspan="7">
+                <h4 id="day_edit_header"><span>Editing day: </span></h4>
+                To begin, click 'Add' for each day to add a time block for that day.<br>
+                To edit a time block, click on it.
+                <br>
+                <br>
+                <form action="/fee_schedules/edit" method="post" data-remote="true" class="form-group">
+
+                  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                  <input type="hidden" value="" name="submit_type"></input>
+                  <input type="hidden" value="" name="id_box"></input>
+                  <input type="hidden" value="" name="day_keeper"></input>
+                  <div align="center">
+                <div style="width: 55%; border: 1px solid #ccc; padding-top: 10px;">
+                  <div class="form-inline">
+                  <label>Start</label><input type="text" name="start_time" class="form-control"></input>
+                  <input type="text" name="end_time" class="form-control"></input><label>End</label>
+                  </div>
+                    <div class="form-inline">
+                      <br>
+                      <label>Online Fee</label><input type="text" name="online_fee" class="form-control" style="width: 100px;"></input>
+                      <label>Office Fee</label><input type="text" name="office_fee" class="form-control" style="width: 100px;"></input>
+                      <p></p>
+                      </div>
+                  <div class="form-inline">
+                    <label>Allow online visits?</label>
+                    <input name="online_visit_allowed" type="hidden" value="off" />
+                    <input type="checkbox" name='online_visit_allowed'></input>
+                    <label>Allow office visits?</label>
+                    <input name="office_visit_allowed" type="hidden" value="off" />
+                    <input type="checkbox" name='office_visit_allowed'></input>
+                  </div>
+                      </div>
+                      </div>
+                    <br>
+                  <div align="center">
+                    <input class="btn btn-info" name="commit" type="submit"
+                           value="Save time block" id="EditSubmit" />
+                    </div>
+                    </div>
+
+                </form>
+
+
+              </td>
+            </tr>
+
+            </table>
+          </div>
+                  <% end %>
+
+
+  </div>
+
+    </div>
+
+</div>
+  </div>
+  </div>
+
+  <script type="text/javascript">
+      var weekday=new Array(7);
+      weekday[1]="Monday";
+      weekday[2]="Tuesday";
+      weekday[3]="Wednesday";
+      weekday[4]="Thursday";
+      weekday[5]="Friday";
+      weekday[6]="Saturday";
+      weekday[0]="Sunday";
+
+    $(document).on('click', '.fee_rule', function() {
+
+                $("[name='id_box']").val(this.id);
+        $.ajax({
+            url: '/fee_schedules/fee_rule',
+            data: 'fee_rule=' + this.id,
+            type: 'POST',
+            cache: false,
+            success: function(data){
+                // A response to say if it's updated or not
+                var day = weekday[data.day_of_week];
+                $("[id='day_edit_header']").html('Editing day: ' + day);
+                var start_time = data.time_of_day_range.slice(11,16);
+                var end_time = data.time_of_day_range.slice(37,42);
+                $("[name='start_time']").fadeOut('slow', function() {
+                    $("[name='start_time']").val(start_time);
+                    $("[name='start_time']").fadeIn('slow');
+                });
+
+                $("[name='end_time']").fadeOut('slow', function() {
+                    if (end_time == '00:00') {
+                        $("[name='end_time']").val('24:00');
+                    } else {
+                        $("[name='end_time']").val(end_time);
+                    }
+                    ;
+                    $("[name='end_time']").fadeIn('slow');
+                });
+
+                $("[name='online_fee']").fadeOut('slow', function() {
+                    $("[name='online_fee']").val(data.online_visit_fee);
+                    $("[name='online_fee']").fadeIn('slow');
+                });
+
+                $("[name='office_fee']").fadeOut('slow', function() {
+                    $("[name='office_fee']").val(data.office_visit_fee);
+                    $("[name='office_fee']").fadeIn('slow');
+                });
+
+                $("[name='submit_type']").val('edit');
+                if (data.online_visit_allowed == 'allowed') {
+                    $("[name='online_visit_allowed']").prop("checked", true);
+                } else {
+                    $("[name='online_visit_allowed']").prop("checked", false);
+                }
+                if (data.office_visit_allowed == 'allowed') {
+                    $("[name='office_visit_allowed']").prop("checked", true);
+                } else {
+                    $("[name='office_visit_allowed']").prop("checked", false);
+                }
+
+                $('html, body').animate({
+                    scrollTop: $("#day_edit_header").offset().top
+                }, 500);
+
+
+
+
+                }
+        });
+        }
+        );
+
+
+
+    $("[name='add']").click(function() {
+
+        $("[id='day_edit_header']").html('Adding time block for day: ' + this.value);
+        $("[name='day_keeper']").val(weekday.indexOf(this.value))
+        $("[name='submit_type']").val('add');
+        $("[name='start_time']").fadeOut('slow')
+        $("[name='end_time']").fadeOut('slow');
+        $("[name='online_fee']").fadeOut('slow');
+        $("[name='office_fee']").fadeOut('slow');
+        $("[name='start_time']").val('')
+        $("[name='end_time']").val('');
+        $("[name='online_fee']").val('');
+        $("[name='office_fee']").val('');
+        $("[name='start_time']").fadeIn('slow');
+        $("[name='end_time']").fadeIn('slow');
+        $("[name='online_fee']").fadeIn('slow');
+        $("[name='office_fee']").fadeIn('slow');
+        $("[name='office_visit_allowed']").prop("checked", false);
+        $("[name='online_visit_allowed']").prop("checked", false);
+
+
+        $('html, body').animate({
+            scrollTop: $("#day_edit_header").offset().top
+        }, 500);
+
+
+    });
+
+
+      $("[class='my-checkbox']").bootstrapSwitch();
+      $(function () {
+          $('#start_datetime').datetimepicker({
+              sideBySide: true,
+          });
+
+          $('#end_datetime').datetimepicker({
+              sideBySide: true,
+          });
+
+
+      });
+
+      function readCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1,c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+      }
+
+
+      $(document).ready(function() {
+          var lastTab = readCookie('last_tab')
+
+// if last seen tab was stored in cookie
+          if(lastTab !== null) {
+//remove active in css class from all the unordered list items
+              $('ul.nav-tabs').children().removeClass();
+              $('a[href='+ lastTab +']').parents('li:first').addClass('active');
+              $('div.tab-content').children().removeClass('active in');
+              $(lastTab).addClass('active in');
+              $('#myTab a[href="' + lastTab + '"]').tab('show');
+          }
+      });
+
+      // event to capture tab switch
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+          event.preventDefault();
+//save the latest tab using a cookie:
+          document.cookie = 'last_tab=' + $(event.target).attr('href');
+      });
+
+
+
+
+      function toggle_visibility(id) {
+          var e = document.getElementById(id);
+          if($('#past-times-box:visible').length) {
+              // e.style.display = 'none';
+              $('#show').html("show <span class='glyphicon glyphicon-calendar' aria-hidden='true'></span>");
+              $('#past-times-box').hide(
+                  "slide", { direction: "up"},  500);
+
+          } else {
+           //   e.style.display = 'block';
+              $('#past-times-box').show(
+                      "slide", { direction: "up" }, 500);
+          $('html, body').animate({
+              scrollTop: $("#past-times-box").offset().top + 200
+          }, 500);
+              $('#show').html("hide <span class='glyphicon glyphicon-calendar' aria-hidden='true'></span>");
+          }; };
+
+
+
+
+
+  </script>

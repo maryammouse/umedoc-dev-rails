@@ -1,0 +1,9 @@
+# Dockerfile for running umedoc_app image from umedoc/umedoc_app repo on dockerhub
+
+FROM umedoc/umedoc_aws_test:02
+MAINTAINER umedoc "umedoc.01@gmail.com"
+
+EXPOSE 80
+WORKDIR /home/app/umedoc
+ENTRYPOINT ["passenger", "start", "--daemonize", "--port 80"]
+

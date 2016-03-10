@@ -1,0 +1,31 @@
+<div align="center">
+<img src="https://s3-us-west-1.amazonaws.com/umedoc-email-images/Umedoclogotransparent-small.png">
+  </div>
+<br>
+<font face="Helvetica"><font size="4">
+Hello!
+
+  <p>
+You're receiving this email because you decided to subscribe to updates regarding
+    <% if @email.campaign == 'Umedoc You' %><%= @email.campaign %>, a subscription in which you
+        receive unlimited messaging from your doctor, 20 medicines inside a lockbox,
+a diagnostic pack for online visits and of course, free visits from your doctor!
+      <% elsif @email.campaign == 'House Calls' %>
+      our house call service soon to be available in Atherton, Menlo Park and Palo Alto.
+      <% end %>
+
+    <p>
+
+We won't be sending too many emails - we will only alert you when the service is finally ready!<br>
+Thanks for your interest, we hope we can present it all to you soon. :)
+        <p>
+
+  - Maryam, Umedoc Cofounder
+          <p>
+
+            </font></font>
+<p>
+If you wish to unsubscribe, click the url below:<br>
+
+<%= unsubscribe_mail_url(email: @email.email) %>
+

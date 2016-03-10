@@ -1,0 +1,493 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+      Content-Length:
+      - '0'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '620'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7AxdR6aW3dbAi4
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7AxdKQ7X4T3Y3v",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1445015361,
+          "currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdKQ7X4T3Y3v/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdKQ7X4T3Y3v/subscriptions"
+          }
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:27 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_7AxdKQ7X4T3Y3v
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '620'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7AxdeUSbp8LEYp
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7AxdKQ7X4T3Y3v",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1445015361,
+          "currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdKQ7X4T3Y3v/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdKQ7X4T3Y3v/subscriptions"
+          }
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:27 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_7AxdKQ7X4T3Y3v/sources
+    body:
+      encoding: US-ASCII
+      string: card[object]=card&card[number]=4242424242424242&card[exp_month]=5&card[exp_year]=2020&card[cvc]=593&card[address_zip]=94025
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+      Content-Length:
+      - '123'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:22 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '582'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Axd54gG4UjgKT
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "card_16wbhmHyhXBI5QZ2trRvGZQU",
+          "object": "card",
+          "address_city": null,
+          "address_country": null,
+          "address_line1": null,
+          "address_line1_check": null,
+          "address_line2": null,
+          "address_state": null,
+          "address_zip": "94025",
+          "address_zip_check": "pass",
+          "brand": "Visa",
+          "country": "US",
+          "customer": "cus_7AxdKQ7X4T3Y3v",
+          "cvc_check": "pass",
+          "dynamic_last4": null,
+          "exp_month": 5,
+          "exp_year": 2020,
+          "fingerprint": "sVtYx6E5BecwOJ7v",
+          "funding": "credit",
+          "last4": "4242",
+          "metadata": {},
+          "name": null,
+          "tokenization_method": null
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:27 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Menlo%20Park,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:22 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:22 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '580'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    }
+                 ],
+                 "formatted_address" : "Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.423906,
+                          "lng" : -122.205936
+                       },
+                       "southwest" : {
+                          "lat" : 37.422587,
+                          "lng" : -122.2082168
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4231257,
+                       "lng" : -122.2068508
+                    },
+                    "location_type" : "GEOMETRIC_CENTER",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4245954802915,
+                          "lng" : -122.2057274197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4218975197085,
+                          "lng" : -122.2084253802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "ChIJZ9qz4OSkj4ARlxrBIO9t1nY",
+                 "types" : [ "route" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:27 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Menlo%20Park,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:22 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:22 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '580'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    }
+                 ],
+                 "formatted_address" : "Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.423906,
+                          "lng" : -122.205936
+                       },
+                       "southwest" : {
+                          "lat" : 37.422587,
+                          "lng" : -122.2082168
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4231257,
+                       "lng" : -122.2068508
+                    },
+                    "location_type" : "GEOMETRIC_CENTER",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4245954802915,
+                          "lng" : -122.2057274197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4218975197085,
+                          "lng" : -122.2084253802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "ChIJZ9qz4OSkj4ARlxrBIO9t1nY",
+                 "types" : [ "route" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:28 GMT
+recorded_with: VCR 2.9.3

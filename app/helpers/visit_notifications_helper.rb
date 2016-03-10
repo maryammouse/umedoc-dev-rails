@@ -1,0 +1,2 @@
+module VisitNotificationsHelper
+end

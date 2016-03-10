@@ -1,0 +1,197 @@
+<style>
+    .padded-li {padding-bottom: 5px;}
+</style>
+<%= render partial: 'html_header' %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Landing Page - Start Bootstrap Theme</title>
+
+
+  <!-- Custom Fonts -->
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<!-- Header -->
+<a name="about"></a>
+<div class="intro-header" style="background: url(<%= image_path 'blue_gradient_umedoc.jpg' %>)">
+  <div class="container" style="height: 70%;">
+    <div align="center">
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>" style="width: 40%; text-align: left;"><%= raw(message) %></div>
+    <% end %>
+      </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="intro-message">
+          <h3>Coming Soon...</h3>
+          <h1>Umedoc You</h1>
+          <h3>Your own personal doctor whenever and wherever you need them</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.intro-header -->
+
+<!-- Page Content -->
+
+<a  name="services"></a>
+<div class="content-section-a">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">How it Works:</h2>
+        <p class="lead">
+          You pay a monthly subscription fee and receive...<br>
+        <li class="padded-li">A medicine lock box packed with 20 medicines (including antibiotics,
+          allergy and other prescription-only medications) to be used only as directed by your doctor</li>
+        <li class="padded-li">A diagnostic pack containing equipment such as a EKG monitor for use with online visits. </li>
+        <li class="padded-li">A free visit (online or offline - your choice) every four months</li>
+        <li class="padded-li">Unlimited electronic messaging with your doctor for questions you don't think you need a visit for
+          but would really like to ask.</li>
+        Most of the time, your doctor will suggest medicine from the lock box,
+        so there's no need to leave your home to fill a prescription when you're feeling sick!
+        </p>
+      </div>
+      <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+        <img class="img-responsive" src="<%= image_path 'medicine.png' %>" alt="">
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<div class="content-section-b">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">If you're in need of another visit before the next four months are up</h2>
+        <p class="lead">
+          You can either pay full price for a visit or simply prepay your subscription four months forward to receive credit
+          for your next free visit. Remember, subscribing means unlimited messaging with your doctor and medicines at home for
+          your convenience!
+        </p>
+      </div>
+      <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+        <img class="img-responsive" src="<%= image_path 'teddysyed-message.png' %>" alt="">
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.content-section-b -->
+
+<!--<div class="content-section-a">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">If you choose to stop subscribing (we hope you never need to!)</h2>
+        <p class="lead">
+          Then simply return the lockbox and diagnostic pack.
+        </p>
+      </div>
+      <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+        <img class="img-responsive" src="" alt="">
+      </div>
+    </div>
+  </div>
+  &lt;!&ndash; /.container &ndash;&gt;
+</div>-->
+<!-- /.content-section-a -->
+
+<a  name="contact"></a>
+<div class="banner" style="background: url('<%= image_path 'blue_gradient_umedoc.jpg' %>') ">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-6">
+        <h2>Interested? Enter your email for updates!</h2>
+      </div>
+      <div class="col-lg-6">
+        <form action="/mailing_list" method="POST" id="MailingList">
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+          <div class="input-group">
+            <input type="text" name="email" class="form-control input-lg" placeholder="Enter your email here" />
+          <span class="input-group-btn">
+                <input type="submit" value="Continue"
+                       class="btn btn-info btn-lg" id="MailingListContinue" />
+                </span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.banner -->
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="list-inline">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li>
+            <a href="/about">About</a>
+          </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li>
+            <a href="/contact">Contact</a>
+          </li>
+        </ul>
+        <p class="copyright text-muted small">Copyright &copy; Umedoc 2015. All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+
+</html>

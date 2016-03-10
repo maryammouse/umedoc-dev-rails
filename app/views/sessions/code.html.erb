@@ -1,0 +1,28 @@
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+    <div align="center">
+        <h1>Verify</h1>
+        <div style="width: 40%">
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
+
+            <%= form_for(:verification, url: verify_path) do |f| %>
+                In order to keep things secure, we check to make sure you are really you before you can enter the office for a visit.
+                You should have been sent a code via your phone: enter it below. If you didn't get one, you can request another by hitting the 'Resend code' button.
+                <div class="input-group">
+                <%= f.text_field :token, class: 'form-control input-lg', placeholder: 'Enter the code you were sent.' %>
+                    <span class="input-group-btn">
+                <%= f.submit "Continue", class: "btn btn-primary btn-lg", id: "TokenContinue" %>
+                </span>
+                </div>
+                <br>
+                <%= link_to "Resend code", verify_resend_path, method: :post, class: 'btn btn-info btn-lg' %>
+                <% end %>
+
+
+            </div>
+    </div>
+
+</div>
+

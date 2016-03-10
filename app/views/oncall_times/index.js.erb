@@ -1,0 +1,2 @@
+$('#past-times-table').html('<%= escape_javascript render('past_times', past_oncall_times: @past_oncall_times) %>');
+$('#paginator').html('<%= escape_javascript(paginate(@past_oncall_times, :remote => true).to_s) %>');

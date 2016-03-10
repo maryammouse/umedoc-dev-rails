@@ -1,0 +1,64 @@
+<%= render partial: 'html_header' %>
+<style>
+</style>
+<div style="padding-top: 100px; ">
+    <div align="center">
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+  <% end %>
+    <div style="width: 40%; border: 5px solid turquoise; text-align: left; border-radius: 10px; overflow: auto;">
+<h3><% unless @doctor.nil? %>
+    Doctor
+<% end %><%= @user.firstname %> <%= @user.lastname %></h3>
+<p>
+<div style="padding-left: 20px; padding-bottom: 20px;">
+    <div style="background: url('<%= image_path "BlankProfilePicture.jpg" %>');
+        width: 150px; height: 180px; border: 5px solid turquoise; float: right; margin: 10px;">
+        <% unless @doctor.nil? %>
+        <% if @doctor.image %>
+            <img src='<%= @doctor.image %>' style="width: 150px; height: 180px;">
+        <% end %>
+        <% end %>
+    </div>
+<% unless @doctor.nil? %>
+        <% if @doctor.verification_status == "verified" %>
+            <h4><span class="label label-success">Verified</span></h4>
+        <% else %>
+            <h4><span class="label label-warning">Unverified</span></h4>
+        <% end %>
+        
+        <% unless @credentials.nil? %><p>
+    License Number: <%= @credentials.license_number %><br>
+    Medical Board: <%= @credentials.state_medical_board.name %>
+<% end %>
+<% if @doctor.blurb %>
+    <div style="margin: 5px; border: 1px solid #ccc; 
+    width: 60%; padding: 3px; border-radius: 5px;">
+        <%= @doctor.blurb %>
+        </div>
+    <% end %>
+    <% if @doctor.linked_in %>
+        <a href="<%= @doctor.linked_in %>" style="text-decoration:none;">
+        <span style="font: 80% Arial,sans-serif; color:#0783B6;"><img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_in_20x15.png"
+        width="20" height="15" alt="View My LinkedIn profile" style="vertical-align:middle;" border="0">&nbsp;View my profile</span></a>
+<% end %>
+        <% if current_user == @user %>
+        <hr>
+        <h4>Get Paid:
+    <% if current_user.stripe_seller.nil? %>
+            <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= ENV['STRIPE_CLIENT_ID'] %>&scope=read_write"><img src= <%= image_path "connect_with_stripe.png" %>></a>
+        </h4> 
+        <% else %>
+            You have already linked your Stripe account to Umedoc! Now you'll be able to accept payments from patients.
+    <% end %>
+    <% end %>
+<% end %>
+</p>
+</div>
+<% if @temp_errors %>
+    <% @temp_errors.each do |n| %>
+        <%= n %>
+        <% end %>
+        <% end %>
+</div>
+</div>

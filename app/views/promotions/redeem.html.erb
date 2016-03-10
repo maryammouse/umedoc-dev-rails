@@ -1,0 +1,64 @@
+<%= render 'html_header' %>
+<style>
+  .coupon {width: 400px; border-radius: 5px; border: 1px solid #ccc; padding: 10px;}
+</style>
+<div align="center">
+  <div style="padding-top: 100px;">
+    <div style="width: 40%;">
+      <h1>Redeem Your Promo Codes</h1>
+
+      <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+      <% end %>
+
+     <br>
+
+      <div class="form-group">
+      <form action="/promotions/apply" method="post" id="code_redeemer" >
+      <div class='form-inline'>
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+          <label>Enter your code here</label><br>
+          <input class='form-control' name='promo_code'>
+          </input>
+        </div>
+
+        <br>
+        <div class="form-group">
+          <input class="btn btn-success" name="commit" type="submit"
+                 value="Redeem Code" id="PromoSubmit" />
+        </div>
+      </form>
+          </div>
+      <br>
+      <% if session[:redirect_to] == '/booking' %>
+      <%= link_to "Back to Booking", booking_path, class: 'btn btn-default' %>
+      <% end %>
+      </div>
+    <div align="center">
+      <div style="width: 90%">
+      <% @redeemed.each do |r| %>
+        <div class="coupon" style="float: left; margin: 10px;">
+          <h3 style="padding-left: 0px;"><%= r.promotion.promo_code %></h3>
+          <h2><%= promotion_name(r.promotion) %></h2>
+          Used: <b><%= r.uses_counter %></b> out of
+          <%= pluralize(r.promotion.max_uses_per_patient, 'time') %>
+          <br>
+          This coupon comes with <b><%= pluralize(r.promotion.max_uses_per_patient, 'use') %></b><br>
+          You have <b><%= r.promotion.max_uses_per_patient - r.uses_counter %></b> left.
+          For use with Dr. <%= r.promotion.doctor.user.firstname %> <%= r.promotion.doctor.user.lastname %>'s
+          visits only!
+          <br>
+          <br>
+          This coupon will expire on<b> <%= r.promotion.bookable_timerange.end.
+                                            in_time_zone(r.promotion.timezone).strftime('%b %-dth %Y %Z') %></b><br>
+          After this date you will not be able to use this coupon even if you have some uses left!
+
+        </div>
+
+          <% end %>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,9 @@
+// https://github.com/twbs/bootstrap-sass#a-ruby-on-rails
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap-switch";
+@import "form.authy";
+@import "bootstrap";
+@import 'bootstrap-datetimepicker';
+@import "subscription";
+

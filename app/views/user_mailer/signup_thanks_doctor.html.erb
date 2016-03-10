@@ -1,0 +1,29 @@
+<div align="center">
+<img src="https://s3-us-west-1.amazonaws.com/umedoc-email-images/Umedoclogotransparent-small.png">
+  </div>
+<br>
+<font face="Helvetica"><font size="4">
+Hello Dr. <%= @user.lastname %>,
+
+<p>
+Thank you for signing up with Umedoc! Please contact us ASAP if you would like to start seeing patients online.
+Soon you'll be able to see patients whenever, wherever, and at whatever price you decide!
+Did you have any trouble signing up or any suggestions?
+If you have any questions or concerns, please let us know and we'll be happy to help out.
+<p>
+
+For future reference, if a patient books an online visit with you, then at the time of the visit you
+will need to go to https://umedoc.com/office to see the patient.
+<p>
+
+Click here to confirm your email address: <%= email_confirmation_url(@user.email_confirmation_token) %>
+<p>
+
+Happy Healthcare! :)
+<p>
+
+  - Maryam, Umedoc Cofounder
+  <p>
+
+        </font></font>
+

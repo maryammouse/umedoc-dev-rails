@@ -1,0 +1,190 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+
+  <div align="center">
+    <h1><%= @plan.name %></h1>
+    <br>
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= raw(message) %> <span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+    <% end %>
+    <div class="panel panel-success" style="width: 50%">
+      <h2><%= number_to_currency(@plan.amount / 100) %> per month!</h2>
+      Including:
+      <div style="width: 30%; text-align: left">
+        <ul>
+          <li>Free visits</li>
+          <li>Diagnostic Pack</li>
+          <li>Medicine Lock Box</li>
+          <li>Unlimited messaging with the doctor</li>
+        </ul>
+      </div>
+    </div>
+    <% if @current_user && @current_user.stripe_customer %>
+
+        <div style="text-align: left; width: 30%">
+          <form action="/subscribe/create" method="POST" id="Address">
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <h5>Select an address if you already have one in our system<br>
+              (so we can send you the Diagnostic Pack and Lock Box)</h5>
+            <select class="form-control" name="stripe[address]">
+              <% if @current_user.addresses.present? %>
+                  <% @current_user.addresses.each do |n| %>
+                      <option value="<%= n.id %>"><%= n.street_address_1%>,
+                        <% if n.street_address_2 %> <%= n.street_address_2 %>, <% end %>
+                        <%= n.city %>, <%= n.state %> <%= n.zip_code %></option>
+                  <% end %>
+              <% end %>
+            </select>
+            <h5>or fill in your address </h5>
+            <div class="form-group">
+              <label>Street Address 1</label>
+              <input type="text" name="stripe[street_address_1]" class='form-control'></input>
+            </div>
+            <div class="form-group">
+              <label>Street Address 2</label>
+              <input type="text" name="stripe[street_address_2]" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" name="stripe[city]" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <%= select_tag "stripe[state]", options_for_select(us_states), class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <label>Zip Code</label>
+              <input type="text" name="stripe[zip_code]" class="form-control"></input>
+            </div>
+
+
+
+            <% if logged_in? and @card %>
+
+
+                <br>
+                Please check these card details are correct.
+                <br><br>
+                Card: <%= @card.brand %><br>
+                Last 4 Digits: <%=  @card.last4 %><br>
+                Expires: <%= @card.exp_month %>/<%= @card.exp_year %><br>
+                Zip Code: <%= @card.address_zip %><br><br>
+                <%= link_to 'Update Details', cards_path, class: 'btn btn-info'  %>
+            <% end %>
+            <div align="center">
+              <div class="form-group">
+                <br><br>
+                <input class="btn btn-success" name="commit" type="submit"
+                       value="Subscribe" id="SubscribeSubmit" />
+              </div>
+            </div>
+          </form>
+
+        </div>
+    <% elsif @current_user %>
+
+
+        <script type="text/javascript">
+            // This identifies your website in the createToken call below
+            Stripe.setPublishableKey('pk_test_gkvDPI3WhxYKv0wkXJa1yfet');
+            var stripeResponseHandler = function(status, response) {
+                var $form = $('#payment-form');
+                if (response.error) {
+                    // Show the errors on the form
+                    $form.find('.payment-errors').text(response.error.message);
+                    $form.find('button').prop('disabled', false);
+                } else {
+                    // token contains id, last4, and card type
+                    var token = response.id;
+                    // Insert the token into the form so it gets submitted to the server
+                    $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                    // and re-submit
+                    $form.get(0).submit();
+                }
+            };
+            jQuery(function($) {
+                $('#payment-form').submit(function(e) {
+                    var $form = $(this);
+                    // Disable the submit button to prevent repeated clicks
+                    $form.find('button').prop('disabled', true);
+                    Stripe.card.createToken($form, stripeResponseHandler); // Prevent the form from submitting with the default action
+                    return false;
+                });
+            });
+        </script>
+
+        <div style="text-align: left; width: 30%">
+          <form action="/subscribe/create" method="POST" id="payment-form">
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <span class="payment-errors"></span>
+            <h5>Select an address if you already have one in our system<br>
+              (so we can send you the Diagnostic Pack and Lock Box)</h5>
+            <select class="form-control">
+              <% if @current_user.addresses.present? %>
+                  <% @current_user.addresses.each do |n| %>
+                      <option value="<%= n.id%>"><%= n.street_address_1 n.street_address_2 n.city n.zip_code %></option>
+                  <% end %>
+              <% end %>
+            </select>
+
+            <h5>or fill in your address </h5>
+            <div class="form-group">
+              <label>Street Address 1</label>
+              <input type="text" name="stripe[street_address_1]" class='form-control'></input>
+            </div>
+            <div class="form-group">
+              <label>Street Address 2</label>
+              <input type="text" name="stripe[street_address_2]" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" name="stripe[city]" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" name="stripe[state]" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label>Zip Code</label>
+              <input type="text" name="stripe[zip_code]" class="form-control"></input>
+            </div>
+
+
+            <h5>Enter your card details</h5>
+
+            <div class="form-group">
+              <label>
+                <span>Card Number</span>
+                <input type="text" size="20" data-stripe="number" class="form-control" />
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                <span>CVC</span>
+                <input type="text" size="4" data-stripe="cvc" class="form-control" />
+              </label>
+            </div>
+
+            <div class="form-inline">
+              <label>
+                <span>Expiration (MM/YYYY)</span>
+                <input type="text" size="2" data-stripe="exp-month" class="form-control" />
+              </label>
+              <span> / </span>
+              <input type="text" size="4" data-stripe="exp-year" class="form-control" />
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-success">Subscribe Now</button>
+          </form>
+        </div>
+
+
+    <% else %>
+        Sign Up For Free
+    <% end %>
+
+  </div>
+</div>

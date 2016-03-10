@@ -1,0 +1,26 @@
+<div align="center">
+<div style="width: 50%;">
+<h1>Unsubscribe
+</h1>
+<form action="/unsubscribe_mail" method="POST">
+  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+
+  Enter your email and click unsubscribe and you should no longer receive Umedoc You updates.
+  If you are recieving other emails from us that you do not want, please contact us via the information on
+  <a href="/contact">this page</a> and we will remove your email as soon as possible!
+  <br><br>
+
+    <div class="form-inline">
+      <div style="text-align: left; padding-left: 10%;">
+  <label>Email</label>
+  <input type="text" size="50" class="form-control" name="unsubscribe[email]" value="<%= params[:email] %>" />
+      </div>
+      </div>
+  <br>
+  <input type="submit" id="UnsubscribeSubmit" value="Unsubscribe" class="btn btn-info"/>
+
+      </div>
+
+</form>
+    </div>
+    </div>

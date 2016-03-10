@@ -1,0 +1,117 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.authy.com/protected/json/phones/info?api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4&country_code=1&phone_number=646-500-3791
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 21 Sep 2015 18:43:03 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 21 Sep 2015 18:41:51 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '144'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"message":"Phone number information as of 2015-09-21 18:41:51 UTC","type":"cellphone","provider":"AT&T
+        Wireless","ported":false,"success":true}'
+    http_version: 
+  recorded_at: Mon, 21 Sep 2015 18:43:03 GMT
+- request:
+    method: post
+    uri: http://api.authy.com/protected/json/users/new
+    body:
+      encoding: UTF-8
+      string: user%5Bemail%5D=testes%40gmail.com&user%5Bcellphone%5D=646-500-3791&user%5Bcountry_code%5D=1&api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 21 Sep 2015 18:43:03 GMT
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 21 Sep 2015 18:41:52 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '77'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"message":"User created successfully.","user":{"id":5825537},"success":true}'
+    http_version: 
+  recorded_at: Mon, 21 Sep 2015 18:43:03 GMT
+- request:
+    method: get
+    uri: http://api.authy.com/protected/json/sms/5825537?api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4&force
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 21 Sep 2015 18:43:03 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 21 Sep 2015 18:41:52 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '77'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"message":"SMS token was sent","cellphone":"+1-XXX-XXX-XX91"}'
+    http_version: 
+  recorded_at: Mon, 21 Sep 2015 18:43:03 GMT
+recorded_with: VCR 2.9.3

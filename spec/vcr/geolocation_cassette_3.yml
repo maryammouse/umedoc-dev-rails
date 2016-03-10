@@ -1,0 +1,1430 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Menlo%20Park,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:26 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:26 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '755'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6759",
+                       "short_name" : "6759",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4228383,
+                          "lng" : -122.2061535
+                       },
+                       "southwest" : {
+                          "lat" : 37.4228237,
+                          "lng" : -122.2061535
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4228383,
+                       "lng" : -122.2061535
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4241799802915,
+                          "lng" : -122.2048045197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4214820197085,
+                          "lng" : -122.2075024802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IExuLCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              },
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Court",
+                       "short_name" : "Sunset Ct",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6730",
+                       "short_name" : "6730",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ct, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4237164,
+                          "lng" : -122.2065255
+                       },
+                       "southwest" : {
+                          "lat" : 37.4237104,
+                          "lng" : -122.2065423
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4237104,
+                       "lng" : -122.2065423
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4250623802915,
+                          "lng" : -122.2051849197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4223644197085,
+                          "lng" : -122.2078828802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IEN0LCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:31 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+      Content-Length:
+      - '0'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:26 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '620'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Axd70LhpLreoi
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7AxdUeW5r4L83h",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1445015366,
+          "currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdUeW5r4L83h/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdUeW5r4L83h/subscriptions"
+          }
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:31 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_7AxdUeW5r4L83h
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:26 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '620'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Axdb0bTC8BWdE
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7AxdUeW5r4L83h",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1445015366,
+          "currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdUeW5r4L83h/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/customers/cus_7AxdUeW5r4L83h/subscriptions"
+          }
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:32 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_7AxdUeW5r4L83h/sources
+    body:
+      encoding: US-ASCII
+      string: card[object]=card&card[number]=4242424242424242&card[exp_month]=5&card[exp_year]=2020&card[cvc]=593&card[address_zip]=94025
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.27.2
+      Authorization:
+      - Bearer sk_test_dKGEciDlQdQrqHZKtZyRnlV6
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.27.2","lang":"ruby","lang_version":"2.2.2 p95 (2015-04-13)","platform":"x86_64-darwin14","engine":"ruby","publisher":"stripe","uname":"Darwin
+        maryams-MacBook-Air.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23
+        11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64","hostname":"maryams-MacBook-Air.local"}'
+      Content-Length:
+      - '123'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 16 Oct 2015 17:09:27 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '582'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7AxdQt5HlcBzd8
+      Stripe-Version:
+      - '2015-02-18'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "card_16wbhqHyhXBI5QZ2ONcxJ5kD",
+          "object": "card",
+          "address_city": null,
+          "address_country": null,
+          "address_line1": null,
+          "address_line1_check": null,
+          "address_line2": null,
+          "address_state": null,
+          "address_zip": "94025",
+          "address_zip_check": "pass",
+          "brand": "Visa",
+          "country": "US",
+          "customer": "cus_7AxdUeW5r4L83h",
+          "cvc_check": "pass",
+          "dynamic_last4": null,
+          "exp_month": 5,
+          "exp_year": 2020,
+          "fingerprint": "sVtYx6E5BecwOJ7v",
+          "funding": "credit",
+          "last4": "4242",
+          "metadata": {},
+          "name": null,
+          "tokenization_method": null
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:32 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=Princess@nna,Apt%20101,Menlo%20Park,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:27 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:27 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '471'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4484914,
+                       "lng" : -122.1802812
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "ChIJNREEB6ykj4ARQSDDhLXB1nw",
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:33 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Princess@nna,Menlo%20Park,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:28 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:28 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '471'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4484914,
+                       "lng" : -122.1802812
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "ChIJNREEB6ykj4ARQSDDhLXB1nw",
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:33 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Princess@nna,CA,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:28 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:28 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '494'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4484914,
+                       "lng" : -122.1802812
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.5079439,
+                          "lng" : -122.1213449
+                       },
+                       "southwest" : {
+                          "lat" : 37.414466,
+                          "lng" : -122.2291331
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "ChIJNREEB6ykj4ARQSDDhLXB1nw",
+                 "postcode_localities" : [ "Menlo Park", "West Menlo Park" ],
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:34 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Menlo%20Park,Princess@nna,94025&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:29 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:29 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '619'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Avenue",
+                       "short_name" : "Sunset Ave",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Edison",
+                       "short_name" : "Edison",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "Middlesex County",
+                       "short_name" : "Middlesex County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "New Jersey",
+                       "short_name" : "NJ",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "08820",
+                       "short_name" : "08820",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "3033",
+                       "short_name" : "3033",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ave, Edison, NJ 08820, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 40.56545910000001,
+                          "lng" : -74.37652659999999
+                       },
+                       "southwest" : {
+                          "lat" : 40.5654453,
+                          "lng" : -74.37653
+                       }
+                    },
+                    "location" : {
+                       "lat" : 40.56545910000001,
+                       "lng" : -74.37653
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 40.56680118029151,
+                          "lng" : -74.37517931970849
+                       },
+                       "southwest" : {
+                          "lat" : 40.56410321970851,
+                          "lng" : -74.3778772802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EiUxMDEgU3Vuc2V0IEF2ZSwgRWRpc29uLCBOSiAwODgyMCwgVVNB",
+                 "types" : [ "street_address" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:35 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Menlo%20Park,CA,Princess@nna&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:29 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:29 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '755'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6759",
+                       "short_name" : "6759",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4228383,
+                          "lng" : -122.2061535
+                       },
+                       "southwest" : {
+                          "lat" : 37.4228237,
+                          "lng" : -122.2061535
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4228383,
+                       "lng" : -122.2061535
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4241799802915,
+                          "lng" : -122.2048045197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4214820197085,
+                          "lng" : -122.2075024802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IExuLCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              },
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Court",
+                       "short_name" : "Sunset Ct",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6730",
+                       "short_name" : "6730",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ct, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4237164,
+                          "lng" : -122.2065255
+                       },
+                       "southwest" : {
+                          "lat" : 37.4237104,
+                          "lng" : -122.2065423
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4237104,
+                       "lng" : -122.2065423
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4250623802915,
+                          "lng" : -122.2051849197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4223644197085,
+                          "lng" : -122.2078828802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IEN0LCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:35 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Menlo%20Park,CA,1000104&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:30 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:30 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '755'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6759",
+                       "short_name" : "6759",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4228383,
+                          "lng" : -122.2061535
+                       },
+                       "southwest" : {
+                          "lat" : 37.4228237,
+                          "lng" : -122.2061535
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4228383,
+                       "lng" : -122.2061535
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4241799802915,
+                          "lng" : -122.2048045197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4214820197085,
+                          "lng" : -122.2075024802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IExuLCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              },
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Court",
+                       "short_name" : "Sunset Ct",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6730",
+                       "short_name" : "6730",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ct, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4237164,
+                          "lng" : -122.2065255
+                       },
+                       "southwest" : {
+                          "lat" : 37.4237104,
+                          "lng" : -122.2065423
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4237104,
+                       "lng" : -122.2065423
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4250623802915,
+                          "lng" : -122.2051849197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4223644197085,
+                          "lng" : -122.2078828802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IEN0LCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:35 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=3261%20Sunset%20Avenue,Apt%20101,Menlo%20Park,CA,1&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 16 Oct 2015 17:09:30 GMT
+      Expires:
+      - Sat, 17 Oct 2015 17:09:30 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - "*"
+      Server:
+      - mafe
+      Content-Length:
+      - '641'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "101",
+                       "short_name" : "101",
+                       "types" : [ "street_number" ]
+                    },
+                    {
+                       "long_name" : "Sunset Lane",
+                       "short_name" : "Sunset Ln",
+                       "types" : [ "route" ]
+                    },
+                    {
+                       "long_name" : "Sharon Heights",
+                       "short_name" : "Sharon Heights",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Menlo Park",
+                       "short_name" : "Menlo Park",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "San Mateo County",
+                       "short_name" : "San Mateo County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "California",
+                       "short_name" : "CA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    },
+                    {
+                       "long_name" : "94025",
+                       "short_name" : "94025",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "6759",
+                       "short_name" : "6759",
+                       "types" : [ "postal_code_suffix" ]
+                    }
+                 ],
+                 "formatted_address" : "101 Sunset Ln, Menlo Park, CA 94025, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 37.4228383,
+                          "lng" : -122.2061535
+                       },
+                       "southwest" : {
+                          "lat" : 37.4228237,
+                          "lng" : -122.2061535
+                       }
+                    },
+                    "location" : {
+                       "lat" : 37.4228383,
+                       "lng" : -122.2061535
+                    },
+                    "location_type" : "RANGE_INTERPOLATED",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 37.4241799802915,
+                          "lng" : -122.2048045197085
+                       },
+                       "southwest" : {
+                          "lat" : 37.4214820197085,
+                          "lng" : -122.2075024802915
+                       }
+                    }
+                 },
+                 "partial_match" : true,
+                 "place_id" : "EigxMDEgU3Vuc2V0IExuLCBNZW5sbyBQYXJrLCBDQSA5NDAyNSwgVVNB",
+                 "types" : [ "street_address" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 17:11:36 GMT
+recorded_with: VCR 2.9.3

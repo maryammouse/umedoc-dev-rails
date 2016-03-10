@@ -1,0 +1,264 @@
+<%= render partial: 'html_header' %>
+<style>
+#subscriberDiv { padding-top: 200px; width: 100%; height: auto; bottom: 0px; z-index: 0, padding-left: 100px;}
+#myPublisherDiv {bottom: 0px; right: 0px; position: absolute; z-index: 1}
+.top-bar { background: turquoise;
+padding: 10px; height: 50px;}
+.message { background: #fff;
+    border-bottom: 2px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+.message b {color: turquoise; padding-right: 5px;}
+
+.black-header { color: #000; }
+
+</style>
+
+  <html>
+    <head></head>
+    <audio id="message-sound" src="https://s3-us-west-1.amazonaws.com/umedoc-sound/2a_arp-up.mp3"></audio>
+    <audio id="time-alert-sound" src="https://s3-us-west-1.amazonaws.com/umedoc-sound/sounds-923-chime.mp3"></audio>
+    <audio id="times-up-sound" src="https://s3-us-west-1.amazonaws.com/umedoc-sound/71_completed.mp3"></audio>
+    <body>
+    <script src='//static.opentok.com/webrtc/v2/js/opentok.min.js'></script>
+    <script>
+      var apiKey = '45154892';
+      <% unless @current_visit.nil? %>
+        var sessionId = '<%= @current_visit.session_id.to_s %>';
+        var token = '<%= @token.to_s %>';
+    <% else %>
+        var sessionId = 'none';
+        var token = 'none';
+      <% end %>
+      var session = OT.initSession(apiKey, sessionId);
+      var other_connection = 'none';
+      session.on({
+          streamCreated: function(event) {
+            session.subscribe(event.stream, 'subscribersDiv', {insertMode: 'append', width: "100%", height: 670}); 
+            var other_connection = event.stream.connection.connectionId;
+          }
+      });
+
+      session.on("signal", function(event) {
+        getChatEntry(event.from.id);
+        // console.log("Signal sent from connection " + event.from.id);
+        // Process the event.data property, if there is any data.
+        }
+        )
+
+      session.connect(token, function(error) {
+        if (error) {
+          // console.log(error.message);
+        } else {
+          session.publish('myPublisherDiv', {width: 300, height: 200}); 
+        }
+        });
+
+      <% unless @current_visit.nil? %>
+      disconnectTime()
+
+      function disconnectTime() {
+            window.setTimeout(timesWarning, <%= ((@current_visit.timerange.end - Time.now) * 1000 - 300000).to_i %>);
+            window.setTimeout(timesEnding, <%= ((@current_visit.timerange.end - Time.now) * 1000 - 60000).to_i %>);
+            window.setTimeout(timesUp, <%= ((@current_visit.timerange.end - Time.now) * 1000).to_i %>);
+        }
+
+      function timesUp() {
+        document.getElementById('times-up-sound').play();
+        window.alert("Your visit is at an end! We hope it was everything you wanted it to be. :)");
+        session.disconnect();
+        window.location.reload(true);
+        }
+
+      function timesEnding() {
+          document.getElementById('time-alert-sound').play();
+          window.alert("Just so you know, your visit will end in 1 minute!");
+      }
+
+      function timesWarning() {
+          document.getElementById('time-alert-sound').play();
+          window.alert("Your visit will end in 5 minutes! It might be wise to start wrapping up.");
+      }
+
+      <% end %>
+
+      <% unless @upcoming_visit.nil? %>
+          connectTime()
+
+    function connectTime() {
+        window.setTimeout(startVisit, <%= ((@upcoming_visit.timerange.begin - Time.now) * 1000).to_i %>);
+    }
+    
+    function startVisit() {
+        window.location.reload(true);
+    }
+
+
+          <% end %>
+
+     function getChatEntry(connectionId) {
+         $.ajax({
+                url: '/chat_entries/latest/' + connectionId,
+                success: function(data) {
+                        $("#chat").append("<div class='message'><b>"
+                                + data.name
+                                + ":</b> "+ data.body + "</div>");
+                var objDiv = document.getElementById("chat");
+                objDiv.scrollTop = objDiv.scrollHeight;
+                document.getElementById('message-sound').play();
+
+                }
+            })
+     }
+
+
+
+     function postChatEntry(body) {
+         var data = {
+            connectionid: session.connection.connectionId,
+                          body: body
+
+         }
+
+         $.ajax({
+                url: '/chat_entries/add',
+                data: data,
+                type: 'POST',
+                success: function(data) {
+                session.signal();
+                }
+            })
+     }
+
+     $(window).load(function() {
+             $("#chatButton").bind('click', function() {
+                 processChatEntry();
+              });
+
+             $("#chatBody").keypress(function(e) {
+                 if (e.keyCode == 13) {
+                    processChatEntry();
+                 }
+            })
+
+            function processChatEntry() {
+                if (!$("#chatBody").val()) return;
+                postChatEntry($("#chatBody").val());
+                $("#chatBody").val('');
+
+            }
+        })
+    </script>
+    <% if @current_visit.nil? %>
+    <div style="margin-top: 100px;">
+        <div align="center">
+            <div style="width: 50%;">
+                <h1>The Online Office</h1>
+                <% unless logged_in? %>
+                    <div class="alert alert-info">You can only view your visit information if you are logged in! Log in <a href='/login'>here</a> or signup <a href="/signup">here</a></div>
+                    <% end %>
+
+        <div style="text-align: left;border: 3px solid turquoise; border-radius: 10px; width: 400px;">
+            <h3 class="dashed-turquoise">Status</h3>
+            <div style="padding-left: 20px; padding-bottom: 20px; padding-right: 20px;">
+            <h4 class="black-header">Upcoming Visits</h4>
+        <% unless @upcoming_visit.nil? %>
+        <h2>You have an upcoming visit!</h2>
+        Your next visit is on...<br>
+        <b>Start:</b> <%= @upcoming_visit.timerange.begin.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M')%><br>
+        <b>End:</b> <%= @upcoming_visit.timerange.end.in_time_zone('Pacific Time (US & Canada)').strftime('%A %b-%d-%Y %H:%M')%><br>
+        with 
+            <% if current_user.patient %> <b>Doctor <%= @upcoming_visit.oncall_time.doctor.user.firstname %> <%= @upcoming_visit.oncall_time.doctor.user.lastname %></b> <% end %>
+            <% if current_user.doctor %> <b> <%= @upcoming_visit.patient.user.firstname %> <%= @upcoming_visit.patient.user.lastname %> </b> <% end %>
+        <% else %>
+            <b>You have no upcoming visits! 
+            <% if current_user && current_user.patient %>Book one <a href="/">here</a>.<p><% end %>
+            <% unless logged_in? %> Book one <a href="/">here</a>.<p><% end %></b> 
+        <% end %>
+        <% unless @last_visit.nil? %>
+        <h4 class="black-header">Most Recent Visit</h4>
+            <b>Your last visit ended <%= distance_of_time_in_words(@last_visit.timerange.end, Time.now, include_seconds: true) %> ago</b>
+        <% end %>
+        <% if @upcoming_visit.nil? and @last_visit.nil? %>
+        <h4 class="black-header">Most Recent Visit</h4>
+        <b>You haven't had a visit yet! <% if current_user && current_user.patient %> Book one <a href="/">here</a>. <% end %>
+            <% unless logged_in? %> 
+            Book one <a href="/">here</a>.
+            <% end %>
+        </b>
+        <% end %>
+    <p>
+    <div style="padding: 5px;">
+    <b><i>How it Works</i></b>:
+        This is the online visit page. This is where you and your doctors/patients will
+        have online visits. At the time of the visit, come back to this page to begin.
+            You will be asked to enter a code using your phone
+            so we recommend keeping your phone near you!
+        </p>
+        </div>
+</div>
+<% end %>
+</div>
+    <% unless @current_visit.nil? %>
+            <div style="height: 100%;">
+        <div id="subscribersDiv" style="top: 0px; margin-top: 50px;"></div>
+    <div id='myPublisherDiv' style="border: 3px solid turquoise;"></div> 
+    <div id="chatbox" style="width: 260px; height: 350px;
+        background: #ccc; position: absolute; overflow: hidden; bottom: 0px; left: 0px;">
+        <div class="top-bar">
+            <h4>Chat</h4>
+            </div>
+        <div id = "chat" style="width: 235px; height: 230px; margin: 10px; overflow: auto;">
+            <% @messages.each do |message_item| %>
+                <div class="message">
+                    <b><%= raw(message_item.name) %>: </b> <%= raw(message_item.body) %>
+                </div>
+                <% end %>
+            </div>
+            <div id ="message" style="margin-left: 10px;">
+                <input placeholder="Send a message" type="text" id="chatBody" style="padding: 10px; width: 235px">
+                </input>
+                <br><br><br><br><br>
+                <button id="chatButton" name="chatButton">Enter</button>
+                </div>
+                </div>
+                </div>
+
+
+</div>
+<% end %>
+
+<div align="center">
+    <% if @current_visit.nil? %>
+    <div style="padding-bottom: 100px; text-align: left;">
+        <% else %>
+            <div style="padding-bottom: 100px; text-align: left; width: 40%; padding-top: 50px;">
+                <% end %>
+    <div align="center">
+<h3 class="dashed-turquoise">Make sure your browser will work with our online visits!</h3>
+</div>
+<div style="float: right;">
+<%= image_tag 'testcodermouseprofile.png' %>
+</div>
+<i>Coder Mouse says...</i><br>
+Before we begin, you should know that the browser on your phone will <b>not</b> work at this time with our online visits. Eep!
+<br>
+<li>You <b>need</b> to have a <b>webcam</b> and <b>microphone</b> for the online visit to work!</li>
+<li>On your computer,
+visit <a href="https://apprtc.appspot.com">the test page</a> using the browser you plan to use for the online visit. </li>
+<li>Join a room (the name doesn't matter.)</li>
+<li>If you see video of yourself, then your browser should work with our visits. </li>
+<li>If the website tells you your
+browser is <i>not</i> supported, we recommend you install the latest versions of <b><a href="http://www.google.com/chrome/">Chrome</a></b> or
+<b><a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></b>, which should work nicely. Sorry for the hassle!</li>
+</div>
+</div>
+
+</div>
+    </body>
+  </html>

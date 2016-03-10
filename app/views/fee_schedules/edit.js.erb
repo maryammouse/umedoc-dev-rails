@@ -1,0 +1,16 @@
+var weekday=new Array(7);
+weekday[1]="Monday";
+weekday[2]="Tuesday";
+weekday[3]="Wednesday";
+weekday[4]="Thursday";
+weekday[5]="Friday";
+weekday[6]="Saturday";
+weekday[0]="Sunday";
+
+var my_weekday = weekday[<%= @fee_rule.day_of_week %>]
+$('#' + my_weekday).html("<%= escape_javascript render('fee_rule', day_of_week: @fee_rule.day_of_week) %>")
+$('#' + <%= @fee_rule.id.to_s %>).css({'background-color': '#0ab9de'}).
+        animate({'background-color': '#fff'}, 1000);
+$('html, body').animate({
+    scrollTop: $("#fee_schedule").offset().top
+}, 500);

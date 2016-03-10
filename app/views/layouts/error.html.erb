@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>Umedoc</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div align="center">
+    <div class="error_message">
+    <img src="http://i.imgur.com/yMoUgnA.png">
+    <br>
+    <p>
+    <i>Coder Mouse says</i>
+    <%= yield %>
+    </p>
+    In the meantime, I can take you back home if you like!
+    <p><br>
+<a href="/" class="btn btn-default">Take me home</a>
+</p>
+    </div>
+    </div>
+    </body>
+    </html>

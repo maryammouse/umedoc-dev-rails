@@ -1,0 +1,2 @@
+module UnsubscribeMailHelper
+end

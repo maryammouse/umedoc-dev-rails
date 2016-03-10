@@ -1,0 +1,191 @@
+<style>
+  tr.promo > td { padding: 5px; }
+</style>
+<%= render 'html_header' %>
+<div align="center">
+    <div style="padding-top: 100px;">
+    <div style="width: 40%;">
+<h1>Booking</h1>
+<% unless logged_in? %>
+    <div class="alert alert-info"><li>You must be logged in to complete booking. Log in <b><a href="/login">here</a></b> or signup <b><a href="/signup">here</a></b>.</li>
+        <li>Until booking is completed, your chosen visit may be taken by someone else.</li>
+    </div>
+<% end %>
+
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+  <% end %>
+
+
+<div style="text-align: left;">
+
+        <h3>Visit Details</h3>
+        Please confirm that these details are correct.
+        <br><% unless @offline_office %><i>Please note: When you first enter your online visit, 
+            you will be asked to enter a code using your phone, 
+            so we recommend keeping it near you when your visit is about 
+            to begin.</i> <br> <% end %>
+                <br>
+
+  <div id="promo-codes" style='float: right; width: 200px;'>
+    <% if logged_in? && (not @redeemed.empty?) %>
+        <label>Available Coupons</label><bR>
+        <table>
+
+          <% @redeemed.each do |r| %>
+              <tr class="promo">
+
+                <td>
+                  <label>
+                    <%= promotion_name(r.promotion) %>
+                  </label>
+                </td>
+                <td>
+                  <% if r.promotion == @promo %><div style="text-align: right;">(currently applied)</div> <% else %>
+                      <%= button_to "Apply" ,
+                                    promotions_booking_path(params: { promo_code: r.promotion.promo_code }
+                                            ),
+                                    method: :post, class: "btn btn-info",
+                                    id: r.promotion.promo_code , style: 'float: right;' %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+
+        </table>
+
+
+    <% end %>
+    <bR>
+    <% if @promo %>
+        <B><font color='green'>You have a <%= discount_description(@promo.discount_type, @promo.discount) %>
+          discount on your visit!</font></b>
+    <% end %>
+    <div style="text-align: right;">
+      <b>To add a new coupon, click <%= link_to 'here',
+                                                                            promotions_redeem_path(redirect_to: 'booking') %>.</b>
+    </div>
+  </div>
+        <b>Doctor:</b>
+        Dr. <%= @oncall_time.doctor.user.firstname %> <%= @oncall_time.doctor.user.lastname %>
+<br>
+<% unless @offline_office %>
+<b>Online Locations:</b> <% @oncall_time.online_locations.each do |n| %>
+<span class="label label-info"><%= n.state_name %></span>
+<% end %><br> <% end %>
+        <% if @offline_office %>
+            <b>Address:</b><br>
+            <%= @offline_office.street_address_1 %>, <%= @offline_office.street_address_2 %><br>
+            <%= @offline_office.city %>, <%= @offline_office.state %> <%= @offline_office.zip_code %>
+        <% end %><br>
+        <b>Start Time:</b>
+        <% if session[:pv_start] %>
+        <%= Time.parse(session[:pv_start]).beginning_of_minute.in_time_zone('Pacific Time (US & Canada)').strftime('%m-%d-%y %l:%M %p %Z') %><% end %>
+    <% if session[:pv_end] %><br>
+        <b>End Time:</b>
+        <%= Time.parse(session[:pv_end]).beginning_of_minute.in_time_zone('Pacific Time (US & Canada)').strftime('%m-%d-%y %l:%M %p %Z') %><% end %>
+    <br>
+        <b>Duration: </b> <% if session[:pv_start] and session[:pv_end] %>
+            <%= distance_of_time_in_words(Time.parse(session[:pv_end]).beginning_of_minute - Time.parse(session[:pv_start]).beginning_of_minute) %>
+        <% end %>
+        <br>
+        <b>Fee:</b> 
+        <% if @oncall_time %>
+            <% if @promo %>
+                <del><%= number_to_currency(@fee) %></del>
+                <B><font color='green'><%= Promotion.discounted_fee(@promo, @fee) %></font></b>
+                <% else %>
+                    <%= number_to_currency(@fee) %>
+                <% end %>
+        <% end %>
+
+        <% if logged_in? and @card %>
+
+
+            <br>
+            Please check these card details are correct.
+            <br><br>
+            Card: <%= @card.brand %><br>
+            Last 4 Digits: <%=  @card.last4 %><br>
+            Expires: <%= @card.exp_month %>/<%= @card.exp_year %><br>
+            Zip Code: <%= @card.address_zip %><br><br>
+            <%= link_to 'Update Details', cards_path, class: 'btn btn-info'  %>
+            <% end %>
+
+
+</div>
+
+
+
+        <div align="center">
+        <% if logged_in? %>
+            <br><% unless @offline_office %>
+            <br><br><br><br>
+        <b>By clicking the button below you agree that you are in one of the doctor's licensed locations for the purposes of this visit. </b>
+        <% end %>
+        <br>
+        <% if @free_visit %>
+                <%= button_to 'Checkout your Free Visit!', promotions_free_path, class: 'btn btn-success'  %>
+        <% else %>
+            <% unless @card || @customer.present? %>
+            <div id="super-stripe">
+           <form action="/booking" method="POST">
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key= "<%= ENV['STRIPE_PK'] %>"
+                data-amount= <%= @oncall_time.fee_rules.
+                        where('time :start_time <@ time_of_day_range',
+                              {start_time: Time.parse(session[:pv_start]).
+                                      getlocal('-07:00').strftime("%H:%M:%S") }).
+                        find_by(day_of_week: Time.parse(session[:pv_start]).
+                                        getlocal('-07:00').wday).fee * 100 %>
+                data-zip-code=true
+                data-name="Umedoc"
+                data-description="1 visit (<%= number_to_currency(@oncall_time.fee_rules.where('time :start_time <@ time_of_day_range', {start_time: Time.parse(session[:pv_start]).getlocal('-07:00').strftime("%H:%M:%S") }).find_by(day_of_week: Time.parse(session[:pv_start]).getlocal('-07:00').wday).fee) %>)"
+                data-image="<%= image_path 'Umedoclogoblackbg.png' %>"
+                label="I Agree, Pay with Card">
+              </script>
+           </form>
+           </div>
+                  <% end %>
+            <% if @customer && @card.nil? %>
+                      <bR>
+                      Eep! You currently have no card associated with your account - please add one <a href="/cards">here</a>.
+                  <% elsif @customer%>
+                <%= button_to 'Checkout', booking_path, class: 'btn btn-success'  %>
+            
+            <% end %>
+
+        <% end %>
+        <% end %>
+        <% unless logged_in? %>
+            <%= link_to "Continue", signup_path, class: "btn btn-success" , 'data-no-turbolink' => true %></div>
+        <% end %>
+
+        <% unless @offline_office %>
+<div style="padding-bottom: 100px; text-align: left;">
+    <div align="center">
+<h3>Make sure your browser will work with our online visits!</h3>
+</div>
+<div style="float: right;">
+<%= image_tag 'testcodermouseprofile.png' %>
+</div>
+<i>Coder Mouse says...</i><br>
+Before we begin, you should know that the browser on your phone will <b>not</b> work at this time with our online visits. Eep!
+<br>
+<li>You <b>need</b> to have a <b>webcam</b> and <b>microphone</b> for the online visit to work!</li>
+<li>On your computer,
+visit <a href="https://apprtc.appspot.com">the test page</a> using the browser you plan to use for the online visit. </li>
+<li>Join a room (the name doesn't matter.)</li>
+<li>If you see video of yourself, then your browser should work with our visits. </li>
+<li>If the website tells you your
+browser is <i>not</i> supported, we recommend you install the latest versions of <b><a href="http://www.google.com/chrome/">Chrome</a></b> or
+<b><a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></b>, which should work nicely. Sorry for the hassle!</li>
+</div>
+<% end %>
+
+</div>
+</div>
+
+</div>
+</div>

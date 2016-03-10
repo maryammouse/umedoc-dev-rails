@@ -1,0 +1,93 @@
+<%= render partial: 'html_header' %>
+<head>
+<script src="//cdn.webrtc-experiment.com/DetectRTC.js"></script>
+</head>
+<style>
+.part { padding-left: 20px; padding-right: 20px;
+    padding-top: 20px; padding-bottom: 20px;}
+
+.part_nav { padding-left: 20px; padding-right: 20px;
+    padding-top: 20px; padding-bottom: 20px; 
+    border: 1px solid #ccc;}
+h1 {font-size: 50pt;}
+h3 {border-bottom: none; color: #009999; font-weight: bold;}
+</style>
+<div style="padding-top: 100px;">
+    <div align="center">
+        <h1>How it Works</h1>
+        <p>
+        <img src= <%= image_path "DoctorPatientVisit.jpg" %>>
+        </p>
+        <div class="part_nav">
+        <a href="#patients" class="btn btn-default">Seeing a Doctor</a> <a href="#doctors" class="btn btn-default">Seeing Patients</a>
+        </div>
+        <div style="width: 40%; text-align: left; font-size: 15pt;">
+
+            <a name="patients"></a>
+        <div class="part">
+            <br>
+            <h2>Seeing a Doctor</h2><br>
+        <h3>1: Book Your Visit</h3>
+        <p>
+        <img src= <%= image_path "VisitPage.jpg" %>>
+        </p>
+            On the homepage, you can see a list of doctors who are available for visits
+            now or sometime in the future. Just click on "Book Now" for the visit you wish to book
+            and you'll be taken to a page where you can check the details and pay. (You need an account to finish booking a visit)
+            </div>
+            <div class="part">
+            <h3>2: Visit Time</h3>
+            <p>
+            <img src= <%= image_path "OnlineOfficePage.jpg" %>>
+            </p>
+            If you wish to see when your next visit will be, you can visit the <b><a href="/office">Online Office</a></b>
+                to view that information. <b>Please use the instructions on the page to make sure our visits will work on your computer!</b>
+                When it's time for your visit, go to that page (or reload the page if you're already there)
+                and you should see some video pop up, as well as a chatbox you can use. You should also see your doctor ready to see you!
+                </div>
+
+                <a name="doctors"></a>
+        <div class="part">
+            <br>
+            <h2>Seeing Patients</h2><br>
+        <h3>1: Sign Up as a Doctor</h3>
+        <p>
+        <img src= <%= image_path "DoctorSignupPage.jpg" %>>
+        </p>
+        Click the <b><a href="/doctors/new">For Doctors</a></b> button on the top right, and you'll be taken to a page to fill in some of your details
+        and make your account. We will complete your credentialing within 2 days - once that's done, you'll be a verified doctor who can start
+        seeing patients! <b>Please note that doctor accounts <i>cannot book visits</i> for security and patient safety reasons. If you are a
+    doctor and want to be seen yourself as a patient, you will have to make a separate patient account.</b>
+        </div>
+        <div class="part">
+        <h3>2:  Connect With Stripe</h3>
+        To receive money earned from seeing patients, you must connect your Stripe account with your Umedoc account. Stripe is a payment processing
+        company similar to PayPal. On your profile, you should see a button that says "Connect with Stripe" which will take you through the process
+        of making or logging into your Stripe account. Once you've connected your account, the button will no longer appear on your profile.
+        </div>
+        <div class="part">
+        <h3>3: Record your Availability</h3>
+        Once you are verified, you need to let Umedoc know at which times and days of the week you want to see patients, and at what price!
+        When you've done that, patients will be able to book visits with you from the <b><a href="/">homepage</a></b>.
+        </div>
+        <div class="part">
+        <h3>4: Visit Time</h3>
+            <img src= <%= image_path "OnlineOfficePage.jpg" %>>
+            </p>
+            If you wish to see when your next visit will be, you can visit the <b><a href="/office">Online Office</a></b>
+                to view that information. <b>Please use the instructions on the page to make sure our visits will work on your computer!</b>
+                When it's time for your visit, go to that page (or reload the page if you're already there)
+                and you should see some video pop up, as well as a chatbox you can use. You should also see your patient ready to see you!
+
+        <p>
+        </div>
+        <div class="part" style="padding-bottom: 200px;">
+        <h2>Any Questions?</h2>
+        Please <b><a href="/contact">contact us here</a></b>!
+        </div>
+        </p>
+        </div>
+
+
+        </div>
+        </div>

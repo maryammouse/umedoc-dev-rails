@@ -1,0 +1,53 @@
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+
+  <div align="center">
+    <h1>Your Current Subscription</h1>
+    <h3>The Simple Doctor Service with Dr. <%= @plan.stripe_seller.user.lastname %> </h3>
+    <br>
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= raw(message) %> <span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+    <% end %>
+
+    <div class="container-fluid" style="background: turquoise; padding: 50px;">
+    <div class="row">
+    <div class="col-xs-4" style="text-align: left;">
+        <h3><%= number_to_currency(@stripe_plan.amount / 100) %> per month</h3>
+        <ul>
+          <li>Free visits</li>
+          <li>Diagnostic Pack</li>
+          <li>Medicine Lock Box</li>
+          <li>Unlimited messaging with the doctor</li>
+        </ul>
+        <form action="/subscribe/destroy" method="POST" id="Cancel">
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+          <input class="btn btn-danger" type="submit" value="CANCEL SUBSCRIPTION" />
+        </form>
+      </div>
+      <div class="col-xs-4">
+        <img src="<%= if @plan.stripe_seller.user.doctor.image
+                        @plan.stripe_seller.user.doctor.image
+                      else
+                        '/assets/BlankProfilePicture.jpg'
+                      end %>" style="border-radius: 50px 50px 50px 50px; padding: 10px;">
+        <br>
+        <a href="/<%= @plan.stripe_seller.user.slug %>" class="btn btn-default">View doctor profile</a>
+        <a href="/messaging?to=<%= @plan.stripe_seller.user.slug %>" class="btn btn-default">Message doctor</a>
+
+
+      </div>
+      <div class="col-xs-4">
+      <% if logged_in? and @card %>
+            <h3>Payment details</h3>
+          Card: <%= @card.brand %><br>
+          Last 4 Digits: <%=  @card.last4 %><br>
+          Expires: <%= @card.exp_month %>/<%= @card.exp_year %><br>
+          Zip Code: <%= @card.address_zip %><br><br>
+          <%= link_to 'Update details', cards_path, class: 'btn btn-default'  %>
+          </div>
+      <% end %>
+      </div>
+      </div>
+      </div>

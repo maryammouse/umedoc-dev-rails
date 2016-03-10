@@ -1,0 +1,15 @@
+<% rules_by_day_iterator(@current_schedule, day_of_week).each do |r| %>
+    <div class="fee_rule" id="<%= r.id %>">
+      (<%= r.time_of_day_range.begin.strftime('%H:%M') %> -
+      <% if r.time_of_day_range.end.strftime('%H:%M') == '00:00' %>
+          24:00)<% else %><%= r.time_of_day_range.end.strftime('%H:%M') %>)<% end %>
+      <% if r.online_visit_allowed == 'allowed' %>
+          <br>
+          <font size="0.5"><font color="deepskyblue">✓</font> Online visits accepted [<%= number_to_currency(r.online_visit_fee) %>]</font>
+      <% end %>
+      <% if r.office_visit_allowed == 'allowed' %>
+          <br>
+          <font size="0.5"><font color="lawngreen">✓</font> Office visits accepted [<%= number_to_currency(r.office_visit_fee) %>]</font>
+      <% end %>
+    </div>
+<% end %>

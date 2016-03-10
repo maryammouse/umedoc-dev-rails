@@ -1,0 +1,154 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.authy.com/protected/json/phones/info?api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4&country_code=1&phone_number=3108040264
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 19 Oct 2015 17:42:28 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Oct 2015 17:40:16 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '144'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"message":"Phone number information as of 2015-10-19 17:40:17 UTC","type":"cellphone","provider":"AT&T
+        Wireless","ported":false,"success":true}'
+    http_version: 
+  recorded_at: Mon, 19 Oct 2015 17:42:29 GMT
+- request:
+    method: post
+    uri: http://api.authy.com/protected/json/users/new
+    body:
+      encoding: UTF-8
+      string: user%5Bemail%5D=test%40test.com&user%5Bcellphone%5D=3108040264&user%5Bcountry_code%5D=1&api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 19 Oct 2015 17:42:29 GMT
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Oct 2015 17:40:16 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '77'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"message":"User created successfully.","user":{"id":5826623},"success":true}'
+    http_version: 
+  recorded_at: Mon, 19 Oct 2015 17:42:29 GMT
+- request:
+    method: get
+    uri: http://api.authy.com/protected/json/sms/5826623?api_key=GbSROAGJos1omNU0VOgzMbkUsDIsRopvOVGAj0Y2Ta4&force
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 19 Oct 2015 17:42:29 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Oct 2015 17:40:16 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '77'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"message":"SMS token was sent","cellphone":"+1-XXX-XXX-XX64"}'
+    http_version: 
+  recorded_at: Mon, 19 Oct 2015 17:42:29 GMT
+- request:
+    method: get
+    uri: http://sandbox-api.authy.com/protected/json/verify/0000000/5826623?api_key=7ea6e01f516b0a3ba8e9df75d1f9a6f6&force
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - AuthyRuby/2.4.2 (x86_64-darwin14, Ruby 2.2.2) (2.6.0.1, ruby 2.2.2 (2015-04-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 19 Oct 2015 17:42:32 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Oct 2015 17:40:22 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '65'
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"success":"true","message":"Token is valid.","token":"is valid"}'
+    http_version: 
+  recorded_at: Mon, 19 Oct 2015 17:42:32 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,2 @@
+class HowItWorksController < ApplicationController
+end

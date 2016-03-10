@@ -1,0 +1,28 @@
+== README
+
+This is the final version of Umedoc, the startup I founded. I wrote the majority of the frontend and backend code.
+
+You can view an almost working version (cannot book visits) at http://umedoc-final.herokuapp.com/
+Please note that we have canceled our API services and so the video conferencing and payment processing features will not work.
+
+This app used...
+
+* Stripe
+* OpenTok (video conferencing)
+* Authy (2-step authentication)
+* Rspec with Capybara, Selenium, and Poltergeist (testing)
+* Postgres (database)
+* ActiveJob (job queues)
+* AWS EBS (high-availability infrastructure and scalability)
+
+The features I built were...
+
+* The front page which displays every doctor's available time slots ('visits') alongside their fee, image, and licensed states
+* Booking and payment for visits using Stripe Connect
+* Scheduling so that doctors could set their availability for online or office visits, the times, and the online and office fee for each time range.
+* Promotions where doctors could set up and offer customized promotions and patients could use promo codes while booking appointments if a doctor offered them.
+* Dashboard where patients and doctors could check the status of upcoming or previous visits
+* Video conferencing with OpenTok for the "Online Office" page with instant messaging, available only at the time of the visit and requiring authentication before a user could enter
+* (Incomplete) Subscriptions ('Umedoc You') using Stripe so that patients could subscribe to doctors offering subscriptions and recieve a 'Medicine Lockbox' as well as 24/7 access to the doctor and a free visit every few months.
+
+For access to the full version with our actual commit histories and branches, please contact me at maryamsyed2096@gmail.com

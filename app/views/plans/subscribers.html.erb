@@ -1,0 +1,16 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px;">
+  <div align="center">
+    <h1>Your Simple Doctor Service Subscribers</h1>
+    <div style="text-align: left; width: 50%">
+      <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+      <% end %>
+      <br><Br>
+      Here you can view your subscribers.
+
+
+  </div>
+      </div>
+    </div>

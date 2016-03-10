@@ -1,0 +1,417 @@
+<style>
+.section-box { border-radius: 5px; 
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 5px;}
+
+.row :nth-child(even){
+  background-color: #0066cc;
+}
+.row :nth-child(odd){
+  background-color: #003366;
+}
+tr:nth-child(even) {background: #66cccc;}
+tr:nth-child(odd) {background: #FFF}
+
+/* For medium screen */    
+@media (min-width: 768px) {
+    .row :nth-child(4n), .row :nth-child(4n-1) {
+        background: #dcdcdc;
+    }
+    .row :nth-child(4n-2), .row :nth-child(4n-3) {
+        background: #aaaaaa;
+    }
+}
+
+/* For large screen */
+@media (min-width: 992px) {
+    .row :nth-child(6n), .row :nth-child(6n-1), .row :nth-child(6n-2) {
+        background: #0066cc;
+    }
+    .row :nth-child(6n-3), .row :nth-child(6n-4), .row :nth-child(6n-5) {
+        background: #aaaaaa;
+    }
+}
+</style>
+<%= render 'html_header' %>
+<div style="padding-top: 100px;">
+    <div align="center">
+
+        <h1>Your Promotions</h1>
+
+        <div style="width: 30%; float: left; padding-left: 50px; overflow: auto; margin-top: -100px; height: 750px;
+            position: fixed;">
+            <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#add" id="add-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Add a Promotion</a></li>
+        <li role="presentation"><a href="#edit" role="tab" id="edit-tab" data-toggle="tab" aria-controls="profile">Edit a Promotion</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="add" aria-labelledBy="add-tab" style='padding-bottom: 120px;'>
+           <h4>Add a Promotion</h4>
+        <form action='/promotions/create', method='post', id='promotion_creator'>
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <div class='section-box'>
+            <div class="form-inline">
+            <label>Starting on</label>
+
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                         start_year: Date.today.year,
+                                         end_year: (Date.today + 1.year).year,
+                                         :use_month_numbers => true,
+                                         prefix: 'create_start_date'
+            }, {class: 'form-control', id: 'create[start_date]'} %>
+        </div>
+        <div class='form-inline'>
+            and<br>
+            <label>Ending on</label>
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                                    start_year: Date.today.year,
+                                                    end_year: (Date.today + 1.year).year,
+                                                    :use_month_numbers => true,
+                                                    prefix: 'create_end_date'
+                                                 }, {class: 'form-control', id: 'create[end_date]'} %>
+        </div>
+        <hr>
+        <div class='form-inline'>
+            <label>Coupon Expiry Date</label>
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                                    start_year: Date.today.year,
+                                                    end_year: (Date.today + 1.year).year,
+                                                    :use_month_numbers => true,
+                                                    prefix: 'create_expiry_date'
+            }, {class: 'form-control', id: 'create[expiry_date]'} %>
+        </div>
+        <hr>
+        <div class='form-group'>
+            <label>Timezone</label>
+            <%= time_zone_select 'create', 'timezone', ActiveSupport::TimeZone.us_zones,
+                { default: "Pacific Time (US & Canada)" } , class: 'form-control' %>
+            </input>
+            </div>
+        </div>
+
+            <div class='section-box'>
+                <div class='form-group'>
+                    <label>Type of Discount</label>
+                    <select class='form-control' name='create[discount_type]'>
+                        <option value="percentage">Percentage (EG: 50% off)</option>
+                        <option value="fixed">Fixed (EG: $50 off)</option>
+                    </select>
+                    </div>
+        <div class='form-inline'>
+            <label>Discount Amount</label><br>
+            <font size='0.5px'></font>
+            <input type='text' name='create[discount]' id='create[discount]' class='form-control' style='width: 50px;'>
+            </input>
+            <br><br>
+            <label>Max Uses Per Patient</label>
+            <br>
+            <font size='0.5px'>How many times do you want a single patient to use the code?</font>
+            <br>
+            <input type='text' name='create[max_uses_per_patient]' id='create[max_uses_per_patient]' class='form-control' style='width: 100px;'>
+            </input>
+        </div>
+        </div>
+        <div class='form-group'>
+            <br>
+            <label>Name (optional)</label>
+            <input type='text' name='create[name]' id='create[name]' class='form-control' style='width: 250px;'>
+            </input>
+        </div>
+        <% if logged_in? %>
+            <% if current_user.doctor %>
+
+            <input class="btn btn-info" name="commit" type="submit"
+            value="Create Promotion" id="CreateSubmit" />
+            <% end %>
+
+            <% end %>
+
+            </form>
+
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="edit" aria-labelledBy="edit-tab" style='padding-bottom: 120px;'>
+            <h4>Edit a Promotion</h4>
+            <% unless @promotions.empty? %>
+            <form action='/promotions/edit', method='post', id='promotion_editor'>
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                <select class='form-control' name='edit[chosen_promo]' id='promotion_selector' onchange='saveSelected(this);'>
+                    <option value=''>Select a Promotion</option>
+                        <%= @promotions.each do |n| %>
+                            <option value="<%= n.promo_code %>">
+                              <%= promotion_name(n) %>
+                             with promo code <%= n.promo_code %></option>
+                            <% end %>
+                        </select>
+
+  <div class='section-box'>
+            <div class="form-inline">
+            <label>Starting on</label>
+
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                         :use_month_numbers => true,
+                                         start_year: Date.today.year,
+                                         end_year: (Date.today + 1.year).year,
+                                         prefix: 'edit_start_date'
+            }, {class: 'form-control', id: 'edit[start_date]'} %>
+        </div>
+        <div class='form-inline'>
+            and<br>
+            <label>Ending on</label>
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                                    start_year: Date.today.year,
+                                                    end_year: (Date.today + 1.year).year,
+                                                    :use_month_numbers => true,
+                                                    prefix: 'edit_end_date'
+                                                 }, {class: 'form-control', id: 'edit[end_date]'} %>
+        </div>
+        <hr>
+        <div class='form-inline'>
+            <label>Coupon Expiry Date</label>
+            <%= select_date Date.today, {:order => [:month, :day, :year],
+                                                    start_year: Date.today.year,
+                                                    end_year: (Date.today + 1.year).year,
+                                                    :use_month_numbers => true,
+                                                    prefix: 'edit_expiry_date'
+            }, {class: 'form-control', id: 'edit[expiry_date]'} %>
+        </div>
+        <hr>
+
+        <div class='form-group'>
+            <br>
+            <label>Timezone</label>
+            <%= time_zone_select 'edit', 'timezone', ActiveSupport::TimeZone.us_zones,
+                { default: "Pacific Time (US & Canada)" } , class: 'form-control' %>
+            </input>
+            </div>
+                <div class='form-group'>
+                    <label>Type of Discount</label>
+                    <select class='form-control' name='edit[discount_type]'>
+                        <option value="percentage">Percentage (EG: 50% off)</option>
+                        <option value="fixed">Fixed (EG: $50 off)</option>
+                    </select>
+                    </div>
+        <div class='form-inline'>
+            <label>Discount Amount</label><br>
+            <!--- <font size='0.5px'>No percent or dollar sign necessary!</font><br> -->
+            <input type='text' name='edit[discount]' id='edit_discount' class='form-control' style='width: 50px;'>
+            </input>
+            <br><br>
+            <label>Max Uses Per Patient</label>
+            <br>
+            <input type='text' name='edit[max_uses_per_patient]' id='edit_max_uses_per_patient' class='form-control' style='width: 100px;'>
+            </input>
+        </div>
+        </div>
+        <div class='form-group'>
+            <br>
+            <label>Name (optional)</label>
+            <input type='text' name='edit[name]' id='edit_name' class='form-control' style='width: 250px;'>
+            </input>
+            </div>
+
+            <input class="btn btn-info" name="commit" type="submit"
+            value="Edit Promotion" id="EditSubmit" />
+            </div>
+
+            
+             </form>
+
+                <% else %>
+                    You currently have no promotions to edit! Add some first.
+                    <% end %>
+        
+
+      </div>
+    </div>
+  </div>
+            
+
+            </div>
+            <% if @promotions %>
+                 <form action='/promotions/switch', method='post', id='promotion_switch'>
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <% end %>
+
+            <div id='promotions' style='right: 50px; width: 65%; margin-top: 20px;
+            padding-bottom:  150px;
+                position: absolute; overflow: auto;'>
+
+                <div align='center'>
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>" style="width: 40%; text-align: left;"><%= raw(message) %></div>
+  <% end %>
+  </div>
+
+
+
+                <table class='table'>
+
+                        <tr>
+                            <td> <b>Promotion</b>  </td>
+                            <td> <b>Promo Code</b></td>
+                            <td> <b>Duration</b> </td>
+                            <td> <b>Coupon Expiry Date</b> </td>
+                            <td> <b>Timezone</b> </td>
+                            <td> <b> Discount</b>  </td>
+                            <td><b>Max Uses Per Patient</b></td>
+                            <td></td>
+                            <td><b>Code Status</b></td>
+                            <td><b>Coupon Status</b></td>
+                        </tr>
+                    <% if @promotions %>
+
+                <% @promotions.each do |p| %>
+                        <tr>
+                            <td>
+                              <%= promotion_name(p) %>
+                            </td>
+                            <td> <%= p.promo_code %></td>
+                            <td> <b>From</b> <%= p.applicable_timerange.begin.in_time_zone(p.timezone).strftime('%b %-dth %Y') %>
+                            <b> until</b>
+                                 <%= p.applicable_timerange.end.in_time_zone(p.timezone).strftime('%b %-dth %Y') %></td>
+                            <td><%= p.bookable_timerange.end.in_time_zone(p.timezone).strftime('%b %-dth %Y') %></td>
+                            <td><%= p.timezone %></td>
+                            <td><%= discount_description(p.discount_type, p.discount) %></td>
+                        <td>
+                            <%= p.max_uses_per_patient %>
+                            </td>
+                            <td>  <%= link_to "Delete" , {controller: "promotions", action: "delete", promo_code: p.promo_code },
+                                method: :post, class: "btn btn-danger btn-xs", name: 'delete', data: {confirm: 'Are you sure?'} %></td>
+                            <td>
+                                <% if p.applicable == 'applicable' %>
+                                    <input name="promo_applicable[<%= p.id %>]" type="hidden" value="off" />
+                                    <input type="checkbox" class="my-checkbox" name='promo_applicable[<%= p.id %>]' data-on-text='ON' data-off-text='OFF' data-size='mini' checked>
+                                <% else %>
+                                    <input name="promo_applicable[<%= p.id %>]" type="hidden" value="off" />
+                                    <input type="checkbox" class="my-checkbox" name='promo_applicable[<%= p.id %>]' data-on-text='ON' data-off-text='OFF' data-size='mini'>
+                                <% end %>
+
+                            </td>
+                            <td>
+                                <% if p.bookable == 'bookable' %>
+                                    <input name="promo_bookable[<%= p.id %>]" type="hidden" value="off" />
+                                    <input type="checkbox" class="my-checkbox" name='promo_bookable[<%= p.id %>]' data-on-text='ON' data-off-text='OFF' data-size='mini' checked>
+                                <% else %>
+                                    <input name="promo_bookable[<%= p.id %>]" type="hidden" value="off" />
+                                    <input type="checkbox" class="my-checkbox" name='promo_bookable[<%= p.id %>]' data-on-text='ON' data-off-text='OFF' data-size='mini'>
+                                <% end %>
+
+                            </td>
+
+
+
+                            <% end %>
+                            <% end %>
+                            </table>
+
+                            </form>
+                    <% unless @promotions.empty? %>
+                    <div style='float: right;'>
+                        <input class="btn btn-info" name="commit" type="submit"
+                        value="Save Changes" id="SwitchSubmit" />
+                        </div>
+                        <% end %>
+
+                            <br><Br><Br>
+                            <div align="center">
+                            <div style='width: 90%; text-align: left;'>
+                                <h3 class="dashed-turquoise">Let me explain how this works...</h3>
+                            <div style='float: right; padding: 10px;'><%= image_tag 'testdoctorbearprofile.png' %></div>
+                            <i>Doctor Bear says...</i><br><h4>What is the duration?</h4> The duration is the time range within
+                            which patients can redeem your promo code. When they do,
+                            a coupon will be stored on their account so that they may use it on a visit of their choosing (until
+                            it expires). Once the promo duration ends, patients can no longer redeem the code
+                            (and therefore cannot receive a coupon.)<br>
+                            <h4>Coupon Expiry Date</h4>
+                        This date can extend beyond the end of the promo duration - in fact, we recommend that it does:
+                        since the average patient does not frequently need a doctor's visit, the likelihood is
+                        that when they need one it will be when your promotion has already ended.
+                        <h4>Max Uses Per Patient</h4>
+                        There may be some promotions you wish to offer where you would like a patient with a coupon to be able
+                        to use it more than once. For example, you might create a promo code for a friend so that they can
+                        see you online at a lower rate than your regular patients. Of course, you may want your regular patients to
+                        be able to use the same code (and therefore the same discount) more than once as well. The choice is yours!
+                        <h4>The Status Switches</h4>
+                        Once you have created a promotion you will notice two switches on the table, next to it.
+                        The <b>Code Status</b> switch toggles whether a promotion can currently be applied - or more specifically,
+                        if a code can be redeemed. The <b>Coupon Status</b> switch toggles whether a redeemed code (a coupon) can
+                        be used on one of your visits. When you are ready to allow patients to redeem your promo code and book a visit
+                        with the coupon, turn the switches on. If you suddenly find that a large number of patients are using your code - 
+                        more than you wanted - then you can turn off the <b>Code Status</b> switch to stop more patients from redeeming the code.
+                        If you want to also disable coupons so that even those who have received your coupon cannot use it,
+                        you can do so by turning off the <b>Coupon Status</b> switch - but we do not recommend it!
+                        </div>
+                        </div>
+
+
+                </div>
+
+   <script>
+$("[class='my-checkbox']").bootstrapSwitch();
+</script>
+<script>
+$('#myTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+});
+
+function saveSelected(object){   
+    $.ajax({
+        url: '/promotions/select',
+        data: 'promo_code=' + object.value.slice(-10),
+        type: 'POST',
+        cache: false,
+        success: function(data){
+            // A response to say if it's updated or not
+        $("#edit_max_uses_per_patient").val(data.max_uses_per_patient);
+        $("#edit_name").val(data.name);
+        $("#edit_discount").val(data.discount);
+        $("select[name='edit[timezone]']").val(data.timezone);
+
+
+        $("select[name='edit_start_date[year]']").val(data.applicable_timerange.slice(0,4));
+
+        var start_month = data.applicable_timerange.slice(5,7)
+        if (start_month.charAt(0) == '0') {  
+            $("select[name='edit_start_date[month]']").val(data.applicable_timerange.slice(6,7));
+            } else {
+                $("select[name='edit_start_date[month]']").val(data.applicable_timerange.slice(5,7));
+            }
+
+
+        var start_day = data.applicable_timerange.slice(8,10)
+        if (start_day.charAt(0) == '0') {
+            $("select[name='edit_start_date[day]']").val(data.applicable_timerange.slice(9,10));
+        } else {
+            $("select[name='edit_start_date[day]']").val(data.applicable_timerange.slice(8,10));
+            }
+
+
+        $("select[name='edit_end_date[year]']").val(data.applicable_timerange.slice(26,30));
+
+
+        var end_month = data.applicable_timerange.slice(31,33)
+            if (end_month.charAt(0) == '0') {  
+            $("select[name='edit_end_date[month]']").val(data.applicable_timerange.slice(32,33));
+            } else {
+                $("select[name='edit_end_date[month]']").val(data.applicable_timerange.slice(31,33));
+            }
+
+
+        var end_day = data.applicable_timerange.slice(34,36)
+            if (end_day.charAt(0) == '0') {
+                $("select[name='edit_end_date[day]']").val(data.applicable_timerange.slice(35,36));
+            } else {
+                $("select[name='edit_end_date[day]']").val(data.applicable_timerange.slice(34,36));
+            }
+
+        }
+        });
+
+        
+
+
+}
+</script>

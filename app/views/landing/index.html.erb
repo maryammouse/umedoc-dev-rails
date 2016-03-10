@@ -1,0 +1,29 @@
+<%= render partial: 'html_header' %>
+<div class="jumbotron" style="height: 100%; background: url('<%= image_path 'Umedoc-house-calls-bg.png' %>');
+     background-position: bottom center;">
+  <div align="center" style="padding: 10%;">
+    <div class="panel" style="background-color: rgba(245, 245, 245, 0.6); padding-bottom: 10%;">
+    <h1>House calls</h1>
+    <h4>Coming soon:<br> See a board certified doctor from the comfort of your home.<br>
+    Available 24 hours a day in Menlo Park, Atherton and Palo Alto.<br>
+      $250 a visit.
+    </h4>
+    <form action="/house_calls/mailing" method="POST">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+      <div class="input-group" style="width: 50%;">
+        <input type="text" name="email" class="form-control input-lg"
+               placeholder="Enter your email for updates." />
+          <span class="input-group-btn">
+                <input type="submit" value="Continue"
+                       class="btn btn-success btn-lg" id="MailingListContinue" />
+                </span>
+      </div>
+    </form>
+      <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %>" style="width: 40%;"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= raw(message) %> <span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+      <% end %>
+
+
+  </div>
+    </div>
+</div>

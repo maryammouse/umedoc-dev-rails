@@ -1,0 +1,39 @@
+<table class='table' width="70%">
+  <tr>
+    <td><b>Date and Time</b></td>
+    <td><b>Duration</b></td>
+    <td><b>Locations</b></td>
+    <td><b>Fee Schedule</b></td>
+
+  </tr>
+<% unless past_oncall_times.empty? %>
+    <% past_oncall_times.each do |n| %>
+        <tr>
+          <td>
+            Starting from <B>
+            <%= n.timerange.begin.
+                in_time_zone('Pacific Time (US & Canada)').
+                strftime('%A %b-%d-%Y %H:%M %Z') %> </b> and ending on
+            <b><%= n.timerange.end.
+                   in_time_zone('Pacific Time (US & Canada)').
+                   strftime('%A %b-%d-%Y %H:%M %Z') %></b>
+          </td>
+          <td>
+            <%= distance_of_time_in_words( n.duration ) %>
+          </td>
+          <td>
+            <% unless n.online_locations.empty? %>
+                <li><a href="/office"><b>Online Office</b></a></li>
+            <% end %>
+            <% unless n.office_locations.empty? %>
+                <% n.office_locations.each do |l| %>
+                    <li><%= l.street_address_1 %>, <%= l.street_address_2 %><br>
+                      <%= l.city %>, <%= l.state %> <%= l.zip_code %></li><br><br>
+                <% end %>
+            <% end %>
+          </td>
+          <td><%= n.fee_schedule.name %></td>
+        </tr>
+    <% end %>
+<% end %>
+    </table>

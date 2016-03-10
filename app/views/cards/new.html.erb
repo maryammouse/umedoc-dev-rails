@@ -1,0 +1,140 @@
+<%= render 'html_header' %>
+<div align="center">
+    <div style="padding-top: 100px;">
+    <div style="width: 40%;">
+<h1>Cards</h1>
+
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+  <% end %>
+  <div style="border-radius: 20px; border: 5px solid turquoise; font-size: 15px; padding: 5px;">
+
+      <h3>
+          <b>Currently selected:</b> <% if @card %><%= @card.brand %> Card ending in <%= @card.last4 %>
+      <% else %> none <% end %><br>
+            </h3>
+             <% if @card %>
+            <b>Expires:</b> <%= @card.exp_month %>/<%= @card.exp_year %><br>
+            <B>Zip Code:</b> <%= @card.address_zip %><br><br>
+
+            <b>This is the card that will be used on checkout.</b>
+            <br>To update this card, fill in the <B>Update Your Card</b> form.<br>
+
+            <% end %>
+        To add a new card, you must use the <b>Add New Card</b> form.
+
+        <br><br>
+
+        <% if @card %>
+        <b>Select a different card</b>
+            <br>
+            <form action="/cards/select" method="post" id="card_selector" >
+                <div class='form-group'>
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                <div class="form-inline">
+                    <select class='form-control' name='card[selected]' onchange="this.form.submit()">
+                        <%= @cards.each do |n| %>
+                            <option value="<%= n.last4 %>">Card ending in <%= n.last4 %></option>
+                            <% end %>
+                        </select>
+                    </div>
+                    </div>
+                </form>
+
+                <% end %>
+
+                <% if @card %>
+                <%= button_to 'DELETE CURRENT CARD', cards_delete_path, class: 'btn btn-danger'%>
+                <% end %>
+                 
+
+
+        </div>
+        </div>
+
+
+        <div style="width: 80%; padding-top: 50px; padding-bottom: 100px;">
+        <div class="row">
+            <div class="col-md-6">
+
+        <% if @card %>
+        <h4>Update Your Card</h4>
+        Currently selected: <%= @card.brand %> Card ending in <%= @card.last4 %><br>
+        <b>
+        This is the card that will be updated.</b>
+        <div style="text-align: left;width: 45%">
+        <form action="/cards/update" method="post" id="card_updater" >
+            <div class="form-group">
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                </div>
+            <div class="form-inline">
+                <label>Zipcode</label>
+                <input type="text" name="card[zipcode]" id="update[zipcode]" value="<%= @card.address_zip %>" class="form-control"></input>
+                </div>
+                <div class="form-inline">
+                    <br>
+                    <label>Expiry Date</label>
+                    <%= date_select :card, :exp_month, {:order => [:month], :use_month_numbers => true,
+                                                      selected: Date.parse('1-' + @card.exp_month.to_s + '-1') }, {class: 'form-control', id: 'update[exp_month]'} %>
+                    <%= date_select :card, :exp_year, {order: [:year], :start_year => 2015, :end_year => (Time.now + 5.years).year,
+                                                   selected: Date.parse(@card.exp_year.to_s + '-1-1') }, {:class => "form-control", id: 'update[exp_year]'} %>
+
+                                                      <br>
+<font size="0.75" style="padding-left: 100px;">Month/Year</font>
+<br>
+</div>
+<div class="center" style="text-align: center;">
+            <input class="btn btn-info" name="commit" type="submit"
+            value="Update Card" id="UpdateSubmit" />
+            </div>
+
+            </form>
+            </div>
+
+            <% end %>
+            </div>
+            <div class="col-md-6">
+
+            <h4>Add New Card</h4>
+
+            <div style="text-align: left; width: 45%">
+
+                <form action="/cards/create", method="post", id="card-adder">
+
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+            <div class="form-inline">
+                <label>Number</label>
+                <input type="text" name="card[number]" id="create[number]" class="form-control"></input>
+                <br>
+                <font size="0.5">(no separators/spaces. EG: xxxxxxxxxxxx )</font>
+                </div>
+            <div class="form-inline">
+                <label>Expiry Date</label>
+                <%= date_select :card, :exp_month, {:order => [:month], :use_month_numbers => true,
+                selected: Date.today }, {class: 'form-control', id: 'create[exp_month]'} %>
+            <%= date_select :card, :exp_year, {order: [:year], :start_year => 2015, :end_year => (Time.now + 5.years).year,
+            selected: Date.today }, {:class => "form-control", id: 'create[exp_year]'} %>
+<br>
+<font size="0.75" style="padding-left: 100px;">Month/Year</font>
+</div>
+<div class="form-inline">
+    <label>Zipcode</label> <input type="text" name="card[zipcode]" id='create[zipcode]' class="form-control" style="width: 50px;"></input>
+    <label>CVC</label> <input type="text" name="card[cvc]" class="form-control" id='create[cvc]' style="width: 60px;"></input>
+    </div>
+    <br>
+<div class="center" style="text-align: center;">
+            <input class="btn btn-success" name="commit" type="submit"
+            value="Create Card" id="CreateSubmit" />
+            </div>
+
+
+</form>
+
+</div>
+                </div>
+
+
+        </div>
+        </div>
+        </div>
+

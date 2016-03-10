@@ -1,0 +1,406 @@
+<%= render partial: 'html_header' %>
+<style>
+  #added {background-color: turquoise; border-radius: 10px;
+      padding:5px; width: 200px; height: 90px; float: right; margin-top: 20px; margin-bottom: 20px; margin-right: 20px;}
+  #codes {width: 100%;}
+        .top-type {border-radius: 10px; width: 80%;}
+</style>
+<div class="jumbotron" style="padding-top: 100px; height: 500px;
+    background: url(<%= image_path 'blue_gradient_umedoc.jpg' %> );
+    background-position: top center;">
+        <div align="center">
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>" style="width: 40%"><%= message %></div>
+<% end %>
+      <h1>
+          <img src= <%= image_path 'Umedoc-possible-logo.png' %> alt="Umedoc" />
+      </h1>
+      <p>
+        The simple doctor service.
+      </p>
+      <p>
+      <a class="btn btn-info btn-lg" href="/howitworks">How it Works<br></a>
+      </p>
+          <br>
+          <img src=<%= image_path 'SickCatAnimated.gif' %> alt="Umedoc"
+               style="padding-left: 10px; width: 100px; height: auto;" />
+  </div></div>
+    <div align="center">
+    <div id="Availability" style="width: 80%;" >
+<h2>Available Doctors</h2>
+<div style=" width: 50%; border: 3px solid turquoise; border-radius: 10px;">
+The fee you see is all you pay!<br>
+No insurance, no paperwork, no hassle.<br>
+If your doctor needs to send you to the ER you get a full refund.
+</div>
+      <% if @added.present? %>
+          <div id="added">
+            <div class='form-inline'>
+              <b>Currently applied promotion</b>
+              <form action="/welcome/apply" method='post' class="form-group" id="WelcomeApply">
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+                <select name='promo_code' class='form-control' id="codes" onchange="this.form.submit()">
+                  <% @added.each do |r| %>
+                      <option value="<%= r.promotion.promo_code %>"
+                              <% if r.promotion.promo_code == @selected_promo.promo_code %>
+                              selected<% end %>><%= r.promotion.promo_code %> |
+                        <%= promotion_name(r.promotion) %></option>
+                  <% end %>
+                </select>
+              </form>
+              <a href="/promotions/redeem" style="color: #fff; font: 8pt Verdana; font-style: italic; float: right;">Redeem a new promotion</a>
+            </div>
+            </form>
+          </div>
+      <% end %>
+      <br>
+      <table class="table">
+        <tbody>
+
+        <% if @cheapest_online %>
+            <%
+               Time.zone = 'US/Pacific'
+               if (Time.now.round_off(5.minutes) + @lead_time) < @cheapest_online.timerange.begin
+                 @start_online = @cheapest_online.timerange.begin
+               else
+                 @start_online = (Time.now.round_off(5.minutes) + @lead_time)
+               end %>
+        <% if @cheapest_online.slots(start_time: @start_online).present? %>
+        <tr>
+          <td colspan="7">
+          <h4 style="text-align: left;">Cheapest Online Visit</h4>
+          </td>
+        </tr>
+        <tr style="background: #ccffff"><td> <b>Doctor</b> </td><td> <b>Time</b> </td><td> <b>Time Zone</b> </td><td> <b>Duration</b> </td>
+          <td><b>Cost</b></td><td width="27%"><b>Online Locations</b></td>
+        </tr>
+        <tr>
+        <td>
+          <div align="center">
+            <a href="/<%= @cheapest_online.oncall_time.doctor.user.slug %>">
+              <img src="<%= if @cheapest_online.oncall_time.doctor.image
+                              @cheapest_online.oncall_time.doctor.image
+                            else
+                                image_path'BlankProfilePicture.jpg'
+                            end %>"
+                   style="width: 80px; height: 80px; border-radius: 80px;" ></a><br>
+
+
+            Dr. <%= @cheapest_online.oncall_time.doctor.user.firstname %>
+            <%= @cheapest_online.oncall_time.doctor.user.lastname %><br>
+            <a href="/<%= @cheapest_online.oncall_time.doctor.user.slug %>"
+               class="btn btn-info btn-xs">
+              Learn more</a>
+            </a>
+            <% if @cheapest_online.oncall_time.doctor.linked_in %>
+                <a href="<%= @cheapest_online.oncall_time.doctor.linked_in %>" style="text-decoration:none;">
+                    <span style="font: 80% Arial,sans-serif; color:#0783B6;"><img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_in_20x15.png"
+                                                                                  width="20" height="15" alt="View My LinkedIn profile" style="vertical-align:middle;" border="0">LinkedIn</span></a>
+            <% end %>
+
+          </div>
+
+        </td>
+          <td>
+
+                <% if @cheapest_online.slots(start_time: @start_online).first.in_time_zone('US/Pacific').today? %>
+                    Today at
+                <% else %>
+                    <%= @cheapest_online.slots(start_time: @start_online).first.in_time_zone('US/Pacific').strftime('%A %b-%-d-%Y') %> at
+                <% end %>
+                <%= @cheapest_online.slots(start_time: @start_online).first.in_time_zone('US/Pacific').strftime('%l:%M %p') %>
+
+            </td>
+          <td>
+            <%= @cheapest_online.timerange.begin.in_time_zone('US/Pacific').zone %>
+          </td>
+          <td><%= distance_of_time_in_words(@duration) %> </td>
+        <td>
+          <% if @selected_promo && (@selected_promo.doctor == @cheapest_online.oncall_time.doctor) %>
+              <del>
+                <%= number_to_currency(@cheapest_online.online_visit_fee) %>
+              </del>
+              <B><font color='green'><%= Promotion.discounted_fee(@selected_promo, @cheapest_online.online_visit_fee) %></font></b>
+          <% else %>
+                  <%= number_to_currency(@cheapest_online.online_visit_fee) %>
+          <% end %>
+        </td>
+        <td>
+          <table>
+            <tr>
+            <td style="padding-right: 30px; padding-left: 10px;">
+          <% @cheapest_online.oncall_time.online_locations.each do |n|  %>
+              <span class="label label-info"> <%= n.state_name%></span><br>
+          <% end %>
+        </td>
+        <td style="width: 50%;">
+          <%= if current_user.nil? || current_user.doctor.nil?
+                button_to "Book Now" , temporary_visit_path(params: { start: @start_online,
+                                                                    end: @start_online + @duration,
+                                                                    ot_id: @cheapest_online.oncall_time.id }
+                                   ),
+                        method: :post, class: "btn btn-info", id: "BookOnline"  end%>
+        </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+
+            <% end %>
+            <% end %>
+            <% if @cheapest_office  %>
+            <% Time.zone = 'US/Pacific'
+               if (Time.now.round_off(5.minutes) + @lead_time) < @cheapest_office.timerange.begin
+                 @start_office = @cheapest_office.timerange.begin
+               else
+                 @start_office = (Time.now.round_off(5.minutes) + @lead_time)
+               end %>
+            <% if @cheapest_office.slots(start_time: @start_office).present? %>
+               <tr>
+            <td colspan="7">
+
+              <h4 style="text-align: left;">Cheapest Offline Visit (physical office)</h4>
+            </td>
+        </tr>
+        <tr style="background: #99ffcc;"><td> <b>Doctor</b> </td><td> <b>Time</b> </td><td> <b>Time Zone</b> </td><td> <b>Duration</b> </td>
+          <td><b>Cost</b></td><td colspan="2"><b>Office Locations</b></td>
+        </tr>
+        <tr>
+          <td>
+            <div align="center">
+              <a href="/<%= @cheapest_office.oncall_time.doctor.user.slug %>">
+                <img src="<%= if @cheapest_office.oncall_time.doctor.image
+                                @cheapest_office.oncall_time.doctor.image
+                              else
+                                image_path'BlankProfilePicture.jpg'
+                              end %>"
+                     style="width: 80px; height: 80px; border-radius: 80px;" ></a><br>
+
+
+              Dr. <%= @cheapest_office.oncall_time.doctor.user.firstname %>
+              <%= @cheapest_office.oncall_time.doctor.user.lastname %><br>
+              <a href="/<%= @cheapest_office.oncall_time.doctor.user.slug %>"
+                 class="btn btn-info btn-xs">
+                Learn more</a>
+              </a>
+              <% if @cheapest_office.oncall_time.doctor.linked_in %>
+                  <a href="<%= @cheapest_office.oncall_time.doctor.linked_in %>" style="text-decoration:none;">
+                    <span style="font: 80% Arial,sans-serif; color:#0783B6;">
+                      <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_in_20x15.png"
+                           width="20" height="15" alt="View My LinkedIn profile" style="vertical-align:middle;" border="0">LinkedIn</span></a>
+              <% end %>
+
+            </div>
+
+          </td>
+          <td>
+
+            <% if @cheapest_office.slots(start_time: @start_office).first.today? %>
+                Today at
+            <% else %>
+                <%= @cheapest_office.slots(start_time: @start_office).first.in_time_zone('US/Pacific').strftime('%A %b-%-d-%Y') %> at
+            <% end %>
+            <%= @cheapest_office.slots(start_time: @start_office).first.in_time_zone('US/Pacific').strftime('%l:%M %p') %>
+
+          </td>
+          <td>
+            <%= @cheapest_office.timerange.begin.in_time_zone('US/Pacific').zone %>
+          </td>
+          <td><%= distance_of_time_in_words(@duration) %> </td>
+          <td>
+            <% if @selected_promo && (@selected_promo.doctor == @cheapest_office.oncall_time.doctor) %>
+                <del>
+                  <%= number_to_currency(@cheapest_office.office_visit_fee) %>
+                </del>
+                <B><font color='green'><%= Promotion.discounted_fee(@selected_promo, @cheapest_office.office_visit_fee) %></font></b>
+            <% else %>
+                <%= number_to_currency(@cheapest_office.office_visit_fee) %>
+            <% end %>
+          </td>
+          <td>
+            <table>
+            <% @cheapest_office.oncall_time.office_locations.each do |n| %>
+            <tr>
+              <td style="padding-left: 10px; padding-right: 10px; padding-bottom: 5px;">
+                <li><%= n.street_address_1 %> <%= n.street_address_2 %>,<br>
+                  <%= n.city %>, <%= n.state %> <%= n.zip_code %></li>
+              </td>
+
+              <td style='padding-bottom: 5px;'>
+                <%= if current_user.nil? || current_user.doctor.nil?
+                      button_to "Book Now" , temporary_visit_path(params: { start: (@start_office).
+                                                                          beginning_of_minute,
+                                                                            end: (@start_office + @duration).
+                                                                                    beginning_of_minute,
+                                                                            ot_id: @cheapest_office.oncall_time.id,
+                                                                            office_id: n.id }),
+                                method: :post, class: "btn btn-success", id: "BookOffice"
+                    end %>
+              </td>
+            </tr>
+                  </table>
+        <% end %>
+        </td>
+        </tr>
+            <% end %>
+            <% end %>
+
+      </table>
+
+
+<Br>
+
+<h4 style="text-align: left;">Next Available Visits </h4>
+
+      <div class='table-responsive'>
+<table class="table">
+    <tbody>
+        <tr><td> <b>Doctor</b> </td><td> <b>Time</b> </td><td> <b>Time Zone</b> </td><td> <b>Duration</b> </td>
+          <td style='background: #ccffff;'><b>Online Locations</b></td>
+          <td style='background: #ccffff;'><b>Online Fee</b></td>
+          <td style='background: #ccffff;'></td>
+          <td style='background: #99ffcc;'><b>Offline Locations<br>(physical office)</b></td>
+    <% unless @available.nil?
+         @available.keys.sort.each  do |potential_visit_time|
+           @available[potential_visit_time].each do |free_time|
+            #byebug
+             #@fee_rules = free_time.oncall_time.fee_rules.
+             #               where('time :start_time <@ time_of_day_range',
+             #                 {start_time: potential_visit_time.
+             #                   in_time_zone('Pacific Time (US & Canada)').
+             #                   strftime("%H:%M:%S") }).
+             #                   find_by(day_of_week: potential_visit_time.
+             #                   in_time_zone('Pacific Time (US & Canada)').wday)
+              @doctor = free_time.oncall_time.doctor
+
+              @online_visit_allowed = free_time.online_visit_allowed
+              @office_visit_allowed = free_time.office_visit_allowed
+
+              @online_locations = free_time.oncall_time.online_locations
+              @office_locations = free_time.oncall_time.office_locations
+              @online_visit_fee = free_time.online_visit_fee
+              @office_visit_fee = free_time.office_visit_fee
+
+          %>
+
+
+          <%
+             if ((@online_visit_allowed=="allowed" && @online_locations.present?) ||
+                    ( @office_visit_allowed=="allowed" && @office_locations.present? ))
+                     #@fee_rules.nil?
+             %>
+
+            <tr>
+                <td>
+
+                    <div align="center">
+                        <a href="/<%= @doctor.user.slug %>">
+                        <img src="<%= if @doctor.image
+                            @doctor.image
+                            else
+                            image_path("BlankProfilePicture.jpg")
+                            end %>"
+                            style="width: 80px; height: 80px; border-radius: 80px;" ></a><br>
+
+
+                    Dr. <%= @doctor.user.firstname %> <%= @doctor.user.lastname %><br>
+                        <a href="/<%= @doctor.user.slug %>"
+                            class="btn btn-info btn-xs">
+                Learn more</a>
+            </a>
+            <% if @doctor.linked_in %>
+                    <a href="<%= @doctor.linked_in %>" style="text-decoration:none;">
+                    <span style="font: 80% Arial,sans-serif; color:#0783B6;"><img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_in_20x15.png"
+                    width="20" height="15" alt="View My LinkedIn profile" style="vertical-align:middle;" border="0">LinkedIn</span></a>
+            <% end %>
+
+                    </div>
+                </td>
+                <% @start_time = potential_visit_time.in_time_zone('Pacific Time (US & Canada)') %>
+                <td> <% 
+                    Time.zone = 'US/Pacific'
+                    if @start_time.today? %>
+                             Today at
+                             <% else %>
+                             <%= @start_time.strftime('%A %b-%-d-%Y') %> at
+                        <% end %>
+                     <%= @start_time.strftime('%l:%M %p') %>  </td>
+                 <td> <%= @start_time.zone %> </td>
+                <td><%= distance_of_time_in_words(@duration) %></td>
+                <td style='background: #ccffff; padding-left: 20px;'>
+                     <% if @online_visit_allowed=="allowed" and @online_locations.present? %>
+                            <% @online_locations.each do |n|  %>
+                            <span class="label label-info"> <%= n.state_name%></span><br>
+                            <% end %>
+                    <% else %>
+                                 (This visit is not<br> available online)
+                    <% end %>
+                    </td>
+              <td style="background: #ccffff;">
+                <% if @online_visit_allowed=="allowed" and @online_locations.present? %>
+                    <% if @selected_promo && (@selected_promo.doctor == @doctor) %>
+                        <del><%= number_to_currency(@online_visit_fee) %></del>
+                        <B><font color='green'><%= Promotion.discounted_fee(@selected_promo, @online_visit_fee) %></font></b>
+                    <% else %>
+                        <%= number_to_currency(@online_visit_fee) %>
+                    <% end %>
+                        <% end %>
+              </td>
+                    <td style='background: #ccffff;'>
+                        <% if @online_visit_allowed=="allowed" &&
+                               ( @online_locations.present?) &&
+                               (current_user.nil? || current_user.doctor.nil? ) %>
+                        <%= button_to "Book Now" , temporary_visit_path(params: { start: (@start_time).
+                                                                                    beginning_of_minute,
+                                                                                    end: (@start_time + @duration).
+                                                                                    beginning_of_minute,
+                                                                                     ot_id: free_time.oncall_time.id }
+                                                                  ),
+                        method: :post, class: "btn btn-info", id: "BookOnline" %>
+                    <% end %>
+                </td><td style='background: #99ffcc;'>
+                        <table>
+                        <% if @office_visit_allowed=="allowed" and @office_locations.present? %>
+
+                            <% @office_locations.each do |n| %>
+                                <tr>
+                                    <td style="padding-left: 10px; width: 35%; padding-right: 10px; padding-bottom: 5px;">
+                                    <li><%= n.street_address_1 %> <%= n.street_address_2 %> <%if n.street_address_2 %>,<% end%><br>
+                                    <%= n.city %>, <%= n.state %> <%= n.zip_code %></li>
+                                    </td>
+                                  <td style="background: #99ffcc; padding: 5px;">
+                                    <% if @office_visit_allowed =="allowed" and @office_locations.present? %>
+                                        <% if @selected_promo && (@selected_promo.doctor == @doctor) %>
+                                            <del><%= number_to_currency(@office_visit_fee) %></del>
+                                            <B><font color='green'><%= Promotion.discounted_fee(@selected_promo, @office_visit_fee) %></font></b>
+                                        <% else %>
+                                            <%= number_to_currency(@office_visit_fee) %>
+                                        <% end %>
+                                    <% end %>
+                                  </td>
+                                    <td style='padding-bottom: 5px;'>
+                                        <%= if current_user.nil? || current_user.doctor.nil?
+                                            button_to "Book Now" , temporary_visit_path(params: { start: (@start_time).
+                                                                                                beginning_of_minute,
+                                                                                                end: (@start_time + @duration).
+                                                                                                beginning_of_minute,
+                                                                                                ot_id: free_time.oncall_time.id,
+                                                                            office_id: n.id }),
+                                                                            method: :post, class: "btn btn-success", id: "BookOffice"
+                                            end %>
+                                    </td>
+                                </tr>
+                                <% end %>
+                        <% else %> <td>  There is no physical office available for this visit.</td>
+                        <% end %>
+                        </table>
+            </tr>
+        <% end
+           end
+           end
+       end %>
+    </tbody>
+</table>
+        </div>
+</div></div>
+

@@ -1,0 +1,26 @@
+<%= render partial: 'html_header' %>
+<div style="padding-top: 100px; ">
+    <div align="center">
+        <div style="width: 40%">
+            <h1>Login</h1>
+            Hello! Welcome back to Umedoc.
+            <p>
+    <% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>"><%= message %></div>
+<% end %>
+      <%= form_for(:session, url: login_path) do |f| %>
+          <div class="form-group">
+      <%= f.text_field :username , class: 'form-control', placeholder: 'Email' %>
+  </div>
+  <div class="form-group">
+      <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+  </div> 
+
+  <%= f.submit "Log in", class: "btn btn-primary", id: "LoginSubmit" %>
+      <% end %>
+  </div>
+  <p>
+  <%= link_to 'Forgotten Password?', new_password_reset_path %>
+  </p>
+  </div>
+  </div>

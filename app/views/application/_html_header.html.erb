@@ -1,0 +1,86 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src=<%= image_path "Umedocminilogotrimmed.png" %> height="20"></b></a>
+              <ul class="dropdown-menu">
+                  <li>
+                  <a href="/">Home</a>
+                  </li>
+                <li>
+                  <a href="/office">Online Office</a>
+                </li>
+                <% if current_user && current_user.doctor %>
+                <li>
+                    <a href="/promotions">Promotions</a>
+                </li>
+                    <li>
+                      <a href="/dashboard">Dashboard</a>
+                    </li>
+                    <% elsif current_user && current_user.patient %>
+                <li>
+                  <a href="/cards">Your Payment Details</a>
+                </li>
+                <% end %>
+                <!--<li>
+                  <a href="#">Find a Doctor</a>
+                  </li> -->
+                  <!--
+                <li class="divider">
+                </li>
+                <li class="dropdown-header">
+                  Nav header
+                </li>
+                <li>
+                  <a href="#">Separated link</a>
+                </li>
+                <li>
+                  <a href="#">One more separated link</a>
+                </li>
+                -->
+              </ul>
+            <li <%= raw ' class="active"' if request.path == '/about'  %>>
+              <a href="/about">About</a>
+            </li>
+            <li <%= raw ' class="active"' if request.path == '/contact'  %>>
+              <a href="/contact">Contact</a>
+              </li>
+              <li <%= raw 'class="active"' if request.path == '/office' %>>
+                  <a href="/office">Online Office</a>
+                  </li>
+            <% if logged_in? %>
+              <li <%= raw 'class="active"' if request.path == '/visits' %>>
+                  <a href="/visits">Visits Notice Board</a>
+                  </li>
+                <% end %>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+                  <% if logged_in? %>
+                      <% unless current_user.doctor %>
+                        <a href="/" class="btn btn-success navbar-btn">Book a Visit</a>
+                        <% end %>
+                      <p class="navbar-text">Hey there, <%= @current_user.firstname %>!</p>
+                      <% if current_user.doctor %>
+                      <li><%= link_to "Profile", current_user %></li>
+                      <% end %>
+                      <li><%= link_to "Log Out", logout_path, method: "delete", id:"Logout" %></li>
+                  <% else %>
+                    <a href="/" class="btn btn-success navbar-btn">Book a Visit</a>
+                    <%= link_to "Log In", login_path, class: "btn btn-default navbar-btn", id: "Login" %>
+                    <%= link_to "Sign Up as a Patient", signup_path, class: "btn btn-info navbar-btn", id: "Signup", 'data-no-turbolink' => true %>
+                    <%= link_to "Sign Up as a Doctor", new_doctor_path, class: "btn btn-primary navbar-btn", id: "Doctors" %>
+                    </ul>
+          <% end %>
+          </form>
+        </div>
+        <!--/.navbar-collapse -->
+      </div>
+    </div>

@@ -1,0 +1,73 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+</head>
+<style>
+input[type='checkbox']{
+    vertical-align:middle;}
+h2 {text-align: left;}
+body { background: url(<%= image_path "blue_gradient_doctor_umedoc.jpg" %>) }
+h3 { border-bottom: none;}
+h1 {color: #000;}
+
+</style>
+<%= render partial: 'html_header' %>
+<div align="center">
+    <div style="padding-top: 100px;">
+
+    <div style="width: 50%; ">
+        <h1>Doctors</h1>
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
+
+
+<% if @temporary_credential.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger" style="width: 40%">
+      The form contains <%= pluralize(@temporary_credential.errors.count, "error") %>.
+    </div>
+    <ul class="error_list" style="border: 1px solid #333">
+    <% @temporary_credential.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+        <div style="text-align: left;">
+            <%= form_for(:temporary_credential, url: doc_basic_path) do |f| %>
+            <h3>We just need a few details before we start...</h3>
+            All information provided will be verified in three days or less! Once verified,
+            you will be free to start seeing patients. 
+            <P>
+        <div class="form-group">
+            <%= f.text_field :license_number, class: 'form-control', placeholder: 'What is your license number?' %>
+            </div>
+            <div class="form-group">
+            <%= f.autocomplete_field :state_medical_board_id, autocomplete_state_medical_board_name_doctors_path, class: 'form-control', placeholder: 'Which state medical board are you licensed with?' %>
+        </div>
+        <h4>What specialty skills can you offer patients?</h4>
+                <div class="form-inline">
+                    <div class="checkbox">
+                        <%= f.check_box :is_general_practice, class: "checkbox", id: "general_practice", checked: true %> General Practice
+             <p>
+            </div>
+            </div>
+        Leave these lines blank if you have no specialty.
+            <div class="form-group">
+                <%= f.autocomplete_field :specialty_opt1, autocomplete_specialty_name_doctors_path, class: 'form-control', placeholder: 'Fill in a specialty here' %>
+            </div>
+            <div class="form-group">
+                <%= f.autocomplete_field :specialty_opt2, autocomplete_specialty_name_doctors_path, class: 'form-control', placeholder: 'Fill in another specialty here' %>
+            </div>
+            <div class="form-inline" align="center"><br>
+                <%= f.submit "Continue", class: "btn btn-primary", id: "DoctorContinue" %>
+        </div>
+    <% end %>
+    
+    </div>
+    </div>
+    </div>
+</div>

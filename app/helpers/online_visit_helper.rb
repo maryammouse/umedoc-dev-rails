@@ -1,0 +1,2 @@
+module OnlineVisitHelper
+end
