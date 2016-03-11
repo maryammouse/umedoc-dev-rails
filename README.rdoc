@@ -5,6 +5,10 @@ This is the final version of Umedoc, the startup I founded. I wrote the majority
 You can view an almost working version (cannot book visits) at http://umedoc-final.herokuapp.com/
 Please note that we have canceled our API services and so the video conferencing and payment processing features will not work.
 
+To experiment with a doctor account, the username/email is doctor@test.com
+The patient account email is patient@test.com
+The password is 'password'
+
 This app used...
 
 * Stripe
